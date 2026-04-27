@@ -1,10 +1,18 @@
 package com.bank_account_management_system.model;
-public class SavingAccount extends BankAccount{
+public class SavingsAccount extends BankAccount{
 
     private double interestRate;
 
-    public SavingAccount(int id , String holderName, double balance, double interestRate) {
+    public SavingsAccount(int id , String holderName, double balance, double interestRate) {
         super(id, holderName, balance);
+        this.interestRate = interestRate;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(double interestRate) {
         if(interestRate > 0 ) {
             if(interestRate <1) {
                 this.interestRate = interestRate;
@@ -18,16 +26,6 @@ public class SavingAccount extends BankAccount{
             this.interestRate = 0;
         }
 
-
-
-    }
-
-    public double getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
     }
 
     public void applyInterest()
