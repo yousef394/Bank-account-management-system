@@ -1,10 +1,11 @@
 package com.bank_account_management_system.model;
 
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
- public abstract class BankAccount {
+ public abstract class BankAccount implements Auditable {
         private int accountId;
         private String holderName;
         private double balance;
