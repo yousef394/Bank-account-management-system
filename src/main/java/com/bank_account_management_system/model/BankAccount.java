@@ -7,11 +7,13 @@ abstract public class BankAccount {
         private int accountId;
         private String holderName;
         private double balance;
+        private List< String > auditLog = new ArrayList<>();
 
         public BankAccount(int accountId, String holderName, double balance) {
             this.accountId = accountId;
             this.holderName = holderName;
             this.balance = balance;
+            auditLog.add("Account created with balance: " + this.balance);
         }
 
         public int getAccountId() {
@@ -30,17 +32,28 @@ abstract public class BankAccount {
             return balance;
         }
 
-        public void setBalance(double balance) {
-            this.balance = balance;
+        public boolean deposit(double amount) {
+            if(amount > 0)
+            {
+                this.balance += amount;
+                auditLog.add("deposited :"+amount +" | Balance now is :"+balance);
+                return true;
+            }
+            else
+                return false;
+
+
         }
 
-        public void deposit(double amount) {
-            this.balance += amount;
+        public boolean withdraw(double amount) {
+            if (balance >= amount && amount>0) {
+                this.balance -= amount;
+                auditLog.add("Withdraw :"+amount +" | Balance now is :"+balance);
+                return true;
+            }
+            else
+                return false;
 
-        }
-
-        public void withdraw(double amount) {
-            this.balance -= amount;
         }
 
         public String printDetails() {
@@ -49,19 +62,9 @@ abstract public class BankAccount {
                     "\nBalance: " + balance;
         }
 
-        ArrayList< String >  getAuditLog(){
-
-            ArrayList< String > auditLog = new ArrayList<>();
-            /*
-
-            auditLog.add("Account Id: " + accountId);
-            auditLog.add("Holder Name: " + holderName);
-            auditLog.add("Balance: " + balance);
-            return auditLog;
-
-             */
-            return auditLog;
-        }
+         public List< String >  getAuditLog(){
+                 return new ArrayList<>(auditLog);
+         }
 
 }
 
