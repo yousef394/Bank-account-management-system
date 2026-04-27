@@ -67,4 +67,12 @@ public class CheckingAccount extends BankAccount {
 
     }
 
+    @Override
+    public String printDetails() {
+        return "Checking Account: "+ super.printDetails()+ " OverdraftLimit: "+overdraftLimit
+                + " Fee: "+fee;
+
+    }
+
+
 }
