@@ -34,11 +34,23 @@ public class SavingsAccount extends BankAccount{
         setAuditlog("Interest is applied "+getInterestRate());
     }
 
+    //because it is saving account -->clint can't make withdraw
+    @Override
+    public boolean withdraw(double amount) {
+       return false;
+    }
+
     @Override
     public void applyMonthlyUpdate()
     {
         applyInterest();
         setAuditlog("MonthlyUpdate is applied");
+    }
+
+    @Override
+    public String printDetails() {
+        return "Saving Account: "+ super.printDetails()+
+                " interestRate = "+interestRate;
     }
 
 
