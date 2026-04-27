@@ -3,7 +3,7 @@ package com.bank_account_management_system.model;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class BankAccount {
+ public abstract class BankAccount {
         private int accountId;
         private String holderName;
         private double balance;
@@ -65,6 +65,8 @@ abstract public class BankAccount {
          public List< String >  getAuditLog(){
                  return new ArrayList<>(auditLog);
          }
+
+         public abstract void applyMonthlyUpdate();
 
 }
 
