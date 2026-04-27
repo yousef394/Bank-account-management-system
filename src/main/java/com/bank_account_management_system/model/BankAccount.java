@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
- public abstract class BankAccount implements Auditable {
+ public abstract class BankAccount implements Auditable , Printable {
         private int accountId;
         private String holderName;
         private double balance;
