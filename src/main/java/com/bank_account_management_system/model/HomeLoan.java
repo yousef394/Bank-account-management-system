@@ -3,9 +3,9 @@ package com.bank_account_management_system.model;
 public class HomeLoan extends LoanAccount {
     private String propertyAddress;
 
-    public HomeLoan(int accountId, String holderName,
+    public HomeLoan(int accountId,String password, String holderName,
                    double balance,double loanAmount, double remainingAmount ,String CarModel) {
-        super(accountId, holderName, balance, loanAmount, remainingAmount);
+        super(accountId,password, holderName, balance, loanAmount, remainingAmount);
         this.propertyAddress = CarModel;
 
     }
@@ -29,5 +29,10 @@ public class HomeLoan extends LoanAccount {
     public void applyMonthlyUpdate()
     {
 
+    }
+
+    @Override
+    public String printDetails() {
+        return super.printDetails("HomeLoan");
     }
 }

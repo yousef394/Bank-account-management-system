@@ -5,21 +5,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
  public abstract class BankAccount implements Auditable , Printable {
+
         private int accountId;
         private String holderName;
+        private String password;
         private double balance;
         private LocalDateTime DateCreated;
         private List< String > auditLog = new ArrayList<>();
 
         protected void setAuditlog(String Operation)
         {
-            auditLog.add(Operation+" | "+"Now Account balance is "+getBalance());
+            auditLog.add(Operation);
         }
 
-        public BankAccount(int accountId, String holderName, double balance) {
+        public BankAccount(int accountId,String password, String holderName, double balance) {
             this.accountId = accountId;
             this.holderName = holderName;
+            this.password = password;
 
             if(balance>=0){
                 this.balance = balance;
@@ -28,7 +32,8 @@ import java.util.List;
                 this.balance = 0;
 
             this.DateCreated = LocalDateTime.now();
-            setAuditlog("Account created in "+this.DateCreated);
+
+
         }
 
         public int getAccountId() {
@@ -59,11 +64,25 @@ import java.util.List;
             DateCreated = dateCreated;
         }
 
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+
+
         public boolean deposit(double amount) {
             if(amount > 0)
             {
+                setAuditlog(new Transaction (this.accountId,TransactionType.DEPOSIT
+                    ,amount,this.balance,
+                    this.balance+amount,LocalDateTime.now()).printDetails());
+
                 this.balance += amount;
-                setAuditlog("Deposit :"+amount);
+
                 return true;
             }
             else
@@ -74,8 +93,10 @@ import java.util.List;
 
         public boolean withdraw(double amount) {
             if (balance >= amount && amount>0) {
+                setAuditlog(new Transaction (this.accountId,TransactionType.WITHDRAW
+                        ,amount,this.balance,
+                        this.balance+amount,LocalDateTime.now()).printDetails());
                 this.balance -= amount;
-                setAuditlog("Withdraw :"+amount);
                 return true;
             }
             else
@@ -83,8 +104,8 @@ import java.util.List;
 
         }
 
-        public String printDetails() {
-            return "Account Id: " + accountId +
+        public String printDetails(String Type) {
+            return Type+"\n"+"Account Id: " + accountId +
                     "\nHolder Name: " + holderName +
                     "\nBalance: " + balance;
         }

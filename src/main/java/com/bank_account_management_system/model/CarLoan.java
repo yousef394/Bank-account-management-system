@@ -3,9 +3,9 @@ package com.bank_account_management_system.model;
 public class CarLoan extends LoanAccount {
     private String CarModel;
 
-    public CarLoan(int accountId, String holderName,
+    public CarLoan(int accountId,String password, String holderName,
                    double balance,double loanAmount, double remainingAmount ,String CarModel) {
-        super(accountId, holderName, balance, loanAmount, remainingAmount);
+        super(accountId,password, holderName, balance, loanAmount, remainingAmount);
         this.CarModel = CarModel;
 
     }
@@ -30,4 +30,8 @@ public class CarLoan extends LoanAccount {
 
     }
 
+    @Override
+    public String printDetails() {
+        return super.printDetails("CarLoan");
+    }
 }

@@ -5,9 +5,9 @@ public abstract class LoanAccount extends BankAccount {
     private double loanAmount;
     private double remainingAmount;
 
-    public LoanAccount(int accountId, String holderName,
+    public LoanAccount(int accountId,String password, String holderName,
                        double balance,double loanAmount, double remainingAmount) {
-        super(accountId, holderName, balance);
+        super(accountId,password, holderName, balance);
     }
 
 
@@ -19,7 +19,6 @@ public abstract class LoanAccount extends BankAccount {
     public boolean withdraw(double amount) {
             return false;
     }
-
 
 
 }

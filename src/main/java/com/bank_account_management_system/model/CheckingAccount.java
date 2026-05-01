@@ -4,9 +4,18 @@ public class CheckingAccount extends BankAccount {
     private double overdraftLimit;
     private double fee = 0;
 
-    public CheckingAccount(int id ,String holderName,double balance, double overdraft) {
-        super(id,holderName,balance);
+    public CheckingAccount(int id ,String Password,String holderName,
+                           double balance, double overdraft ) {
+        super(id,Password,holderName,balance);
         this.overdraftLimit = overdraft;
+        this.fee = fee;
+    }
+
+    public CheckingAccount(int id ,String Password,String holderName,
+                           double balance, double overdraft, double fee ) {
+        super(id,Password,holderName,balance);
+        this.overdraftLimit = overdraft;
+        this.fee = fee;
     }
 
     public double getOverdraftLimit() {
@@ -69,7 +78,7 @@ public class CheckingAccount extends BankAccount {
 
     @Override
     public String printDetails() {
-        return "Checking Account: "+ super.printDetails()+ " OverdraftLimit: "+overdraftLimit
+        return  super.printDetails("checking Account")+ " OverdraftLimit: "+overdraftLimit
                 + " Fee: "+fee;
 
     }

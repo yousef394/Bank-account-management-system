@@ -5,5 +5,5 @@ public enum TransactionType {
     WITHDRAW,
     TRANSFER,
     LOAN_PAYMENT,
-    INTEREST
+    INTERES
 }

@@ -3,8 +3,8 @@ public class SavingsAccount extends BankAccount{
 
     private double interestRate;
 
-    public SavingsAccount(int id , String holderName, double balance, double interestRate) {
-        super(id, holderName, balance);
+    public SavingsAccount(int id ,String password, String holderName, double balance, double interestRate) {
+        super(id,password, holderName, balance);
         this.interestRate = interestRate;
     }
 
@@ -49,7 +49,7 @@ public class SavingsAccount extends BankAccount{
 
     @Override
     public String printDetails() {
-        return "Saving Account: "+ super.printDetails()+
+        return "Saving Account: "+ super.printDetails("Saving Account")+
                 " interestRate = "+interestRate;
     }
 
