@@ -1,5 +1,7 @@
 package com.bank_account_management_system.model;
 
+import java.time.LocalDateTime;
+
 public class CarLoan extends LoanAccount {
     private String CarModel;
 
@@ -10,7 +12,14 @@ public class CarLoan extends LoanAccount {
 
     }
 
-    String getCarModel() {
+    public CarLoan(int accountId, String password, LocalDateTime dateCreated, String holderName,
+                   double balance, double loanAmount, double remainingAmount , String CarModel) {
+        super(accountId,password,dateCreated, holderName, balance, loanAmount, remainingAmount);
+        this.CarModel = CarModel;
+
+    }
+
+    public String getCarModel() {
         return CarModel;
     }
     public void setCarModel(String CarModel) {
@@ -32,6 +41,6 @@ public class CarLoan extends LoanAccount {
 
     @Override
     public String printDetails() {
-        return super.printDetails("CarLoan");
+        return super.printDetails("CarLoan")+"\n"+CarModel;
     }
 }
