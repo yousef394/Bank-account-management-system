@@ -36,6 +36,23 @@ import java.util.List;
 
         }
 
+        public BankAccount(int accountId,String password, String holderName, double balance ,LocalDateTime DateCreated) {
+         this.accountId = accountId;
+         this.holderName = holderName;
+         this.password = password;
+
+         if(balance>=0){
+             this.balance = balance;
+         }
+         else
+             this.balance = 0;
+
+         this.DateCreated =DateCreated;
+
+
+     }
+
+
         public int getAccountId() {
             return accountId;
         }
@@ -104,7 +121,7 @@ import java.util.List;
 
         }
 
-        public String printDetails(String Type) {
+        protected String printDetails(String Type) {
             return Type+"\n"+"Account Id: " + accountId +
                     "\nHolder Name: " + holderName +
                     "\nBalance: " + balance;
@@ -116,6 +133,7 @@ import java.util.List;
 
          public abstract void applyMonthlyUpdate();
 
+        public abstract String printDetails();
 }
 
 

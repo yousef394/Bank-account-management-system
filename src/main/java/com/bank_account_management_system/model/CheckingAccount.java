@@ -1,5 +1,7 @@
 package com.bank_account_management_system.model;
 
+import java.time.LocalDateTime;
+
 public class CheckingAccount extends BankAccount {
     private double overdraftLimit;
     private double fee = 0;
@@ -10,8 +12,15 @@ public class CheckingAccount extends BankAccount {
         this.overdraftLimit = overdraft;
         this.fee = fee;
     }
+    public CheckingAccount(int id , String Password, LocalDateTime dateCreated, String holderName,
+                           double balance, double overdraft ) {
+        super(id,Password,holderName,balance,dateCreated);
+        this.overdraftLimit = overdraft;
+        this.fee = fee;
 
-    public CheckingAccount(int id ,String Password,String holderName,
+    }
+
+    public CheckingAccount(int id ,String Password, LocalDateTime dateCreated,String holderName,
                            double balance, double overdraft, double fee ) {
         super(id,Password,holderName,balance);
         this.overdraftLimit = overdraft;

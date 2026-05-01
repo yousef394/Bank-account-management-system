@@ -1,10 +1,20 @@
 package com.bank_account_management_system.model;
+
+import java.time.LocalDateTime;
+
 public class SavingsAccount extends BankAccount{
 
     private double interestRate;
 
-    public SavingsAccount(int id ,String password, String holderName, double balance, double interestRate) {
+    public SavingsAccount(int id ,String password, String holderName, double balance, double interestRate)
+    {
         super(id,password, holderName, balance);
+        this.interestRate = interestRate;
+    }
+    public SavingsAccount(int id , String password, LocalDateTime dateCreated ,String holderName,
+                          double balance, double interestRate)
+    {
+        super(id,password, holderName, balance,dateCreated);
         this.interestRate = interestRate;
     }
 
