@@ -1,5 +1,8 @@
 package com.bank_account_management_system.model;
 
+import com.bank_account_management_system.Data.BankAccountData;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class CarLoan extends LoanAccount {
@@ -26,6 +29,11 @@ public class CarLoan extends LoanAccount {
         this.CarModel = CarModel;
     }
 
+    @Override
+    public boolean Save() throws IOException {
+        return BankAccountData.CarLoanData.Update(getAccountId(),getPassword(),getHolderName()
+        ,getBalance(),getLoanAmount(),getRemainingAmount(),getCarModel());
+    }
 
     @Override
     public void payInstallment(double amount)

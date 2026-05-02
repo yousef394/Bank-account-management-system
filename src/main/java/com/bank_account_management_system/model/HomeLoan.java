@@ -1,5 +1,8 @@
 package com.bank_account_management_system.model;
 
+import com.bank_account_management_system.Data.BankAccountData;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class HomeLoan extends LoanAccount {
@@ -27,6 +30,12 @@ public class HomeLoan extends LoanAccount {
         this.propertyAddress = PropertyAddress;
     }
 
+
+    @Override
+    public boolean Save() throws IOException {
+        return BankAccountData.HomeLoanData.Update(getAccountId(),getPassword(),getHolderName()
+        ,getBalance(),getLoanAmount(),getRemainingAmount(),getPropertyAddress());
+    }
 
     @Override
     public void payInstallment(double amount)

@@ -1,5 +1,8 @@
 package com.bank_account_management_system.model;
 
+import com.bank_account_management_system.Data.BankAccountData;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class CheckingAccount extends BankAccount {
@@ -58,6 +61,12 @@ public class CheckingAccount extends BankAccount {
         else
             return false;
         }
+
+    @Override
+    public boolean Save() throws IOException {
+        return BankAccountData.CheckingAccountData.Update(getAccountId(),getPassword(),
+                getHolderName(),getBalance(),getOverdraftLimit());
+    }
 
     @Override
     public void applyMonthlyUpdate() {

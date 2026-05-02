@@ -33,7 +33,7 @@ public class TransactionData {
 
     }
 
-    static public ArrayList<Transaction> loadTransaction() throws IOException {
+    static public ArrayList<Transaction> loadTransactions() throws IOException {
 
         BufferedReader br = new BufferedReader(new FileReader(transactionFileName));
 
@@ -66,7 +66,7 @@ public class TransactionData {
         String[] transaction ;
         ArrayList<Transaction> transactions = new ArrayList<>();
 
-        for(Transaction t: loadTransaction()){
+        for(Transaction t: loadTransactions()){
             if(t.getAccountId() == accountId){
                 transactions.add(t);
             }
@@ -77,6 +77,7 @@ public class TransactionData {
         return transactions;
 
     }
+
 
 
 

@@ -1,6 +1,9 @@
 package com.bank_account_management_system.model;
 
 
+import com.bank_account_management_system.Data.BankAccountData;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +73,7 @@ import java.util.List;
             return balance;
         }
 
-        protected void setBalance(double balance) {
+        public void setBalance(double balance) {
             this.balance = balance;
         }
 
@@ -131,6 +134,9 @@ import java.util.List;
          public List< String >  getAuditLog(){
                  return new ArrayList<>(auditLog);
          }
+
+         public abstract boolean Save() throws IOException;
+
 
          public abstract void applyMonthlyUpdate();
 

@@ -122,7 +122,7 @@ public class BankAccountData {
 
         }
 
-        public static boolean Update(int accountId, String password, String holderName) throws IOException {
+        public static boolean Update(int accountId, String password, String holderName, double balance,double overdraftLimit) throws IOException {
 
             if(accountId==0||! IsExist(accountId)) {
                 return false;
@@ -138,6 +138,8 @@ public class BankAccountData {
                 if(checkingAccount.getAccountId()==accountId) {
                    checkingAccount.setPassword(password);
                    checkingAccount.setHolderName(holderName);
+                   checkingAccount.setBalance(balance);
+                   checkingAccount.setOverdraftLimit(overdraftLimit);
                 }
                 data  = checkingAccount.getAccountId() +delemetar+
                         checkingAccount.getPassword() +delemetar+ checkingAccount.getDateCreated()+delemetar+
@@ -266,7 +268,7 @@ public class BankAccountData {
 
         }
 
-        public static boolean Update(int accountId, String password, String holderName) throws IOException {
+        public static boolean Update(int accountId, String password, String holderName,double balance ,double interests) throws IOException {
 
             if(accountId==0||! IsExist(accountId)) {
                 return false;
@@ -282,6 +284,8 @@ public class BankAccountData {
                 if(savingsAccount.getAccountId()==accountId) {
                     savingsAccount.setPassword(password);
                     savingsAccount.setHolderName(holderName);
+                    savingsAccount.setBalance(balance);
+                    savingsAccount.setInterestRate(interests);
                 }
                 data  = savingsAccount.getAccountId() +delemetar+
                         savingsAccount.getPassword() +delemetar+savingsAccount.getDateCreated().toString()
@@ -414,7 +418,8 @@ public class BankAccountData {
 
         }
 
-        public static boolean Update(int accountId, String password, String holderName) throws IOException {
+        public static boolean Update(int accountId, String password, String holderName
+                ,double balance, double loanAmount , double remainingAmount, String carModel) throws IOException {
 
             if(accountId==0||! IsExist(accountId)) {
                 return false;
@@ -430,6 +435,10 @@ public class BankAccountData {
                 if(carLoan.getAccountId()==accountId) {
                     carLoan.setPassword(password);
                     carLoan.setHolderName(holderName);
+                    carLoan.setBalance(balance);
+                    carLoan.setLoanAmount(loanAmount);
+                    carLoan.setRemainingAmount(remainingAmount);
+                    carLoan.setCarModel(carModel);
                 }
                 data  = carLoan.getAccountId() +delemetar+
                         carLoan.getPassword() +delemetar+carLoan.getDateCreated().toString()
@@ -566,7 +575,8 @@ public class BankAccountData {
 
         }
 
-        public static boolean Update(int accountId, String password, String holderName) throws IOException {
+        public static boolean Update(int accountId, String password, String holderName,double balance
+                                    ,double loanAmount , double remainingAmount , String propertyAddress) throws IOException {
 
             if(accountId==0||! IsExist(accountId)) {
                 return false;
@@ -582,6 +592,10 @@ public class BankAccountData {
                 if(homeLoan.getAccountId()==accountId) {
                     homeLoan.setPassword(password);
                     homeLoan.setHolderName(holderName);
+                    homeLoan.setBalance(balance);
+                    homeLoan.setLoanAmount(loanAmount);
+                    homeLoan.setRemainingAmount(remainingAmount);
+                    homeLoan.setPropertyAddress(propertyAddress);
                 }
                 data  = homeLoan.getAccountId() +delemetar+
                         homeLoan.getPassword() +delemetar+homeLoan.getDateCreated().toString()

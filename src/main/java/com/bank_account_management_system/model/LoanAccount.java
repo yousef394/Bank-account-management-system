@@ -32,6 +32,7 @@ public abstract class LoanAccount extends BankAccount {
     }
 
 
+
     abstract public void payInstallment(double amount);
 
 
