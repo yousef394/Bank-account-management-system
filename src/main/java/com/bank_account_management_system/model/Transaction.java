@@ -1,10 +1,9 @@
 package com.bank_account_management_system.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Transaction implements Printable {
-    static private int transactionId=0;
+
     private TransactionType type;
     private double amount;
     private LocalDateTime date;
@@ -12,21 +11,40 @@ public class Transaction implements Printable {
     private double BalanceBefore;
     private double BalanceAfter;
 
-    Transaction(int AccountId, TransactionType type, double amount,
-                double BalanceBefore,double BalanceAfter, LocalDateTime date) {
-        this.transactionId ++;
+    public Transaction(int AccountId, TransactionType type, double amount,
+                double BalanceBefore,double BalanceAfter) {
+
         this.type = type;
         this.amount = amount;
         this.date = date;
         this.AccountId = AccountId;
         this.BalanceBefore = BalanceBefore;
         this.BalanceAfter = BalanceAfter;
+        date = LocalDateTime.now();
     }
-    public int getTransactionId() {
-        return transactionId;
+
+    public Transaction( int AccountId, TransactionType type, double amount,
+                       double BalanceBefore,double BalanceAfter ,LocalDateTime date) {
+        this.AccountId = AccountId;
+        this.type = type;
+        this.amount = amount;
+        this.BalanceBefore = BalanceBefore;
+        this.BalanceAfter = BalanceAfter;
+        this.date = date;
+    }
+
+
+    public int getAccountId() {
+        return AccountId;
     }
     public TransactionType getType() {
         return type;
+    }
+    public double getBalanceBefore() {
+        return BalanceBefore;
+    }
+    public double getBalanceAfter() {
+        return BalanceAfter;
     }
     public double getAmount() {
         return amount;
@@ -34,6 +52,7 @@ public class Transaction implements Printable {
     public LocalDateTime getDate() {
         return date;
     }
+
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
@@ -58,7 +77,7 @@ public class Transaction implements Printable {
     @Override
     public String printDetails()
     {
-        return "Transaction Id: "+transactionId+
+        return "Transaction  "+
                 " Account Id: "+AccountId+
                 " Type: "+type.toString()+
                 " Amount: "+ amount+

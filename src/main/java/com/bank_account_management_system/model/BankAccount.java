@@ -36,7 +36,8 @@ import java.util.List;
 
         }
 
-        public BankAccount(int accountId,String password, String holderName, double balance ,LocalDateTime DateCreated) {
+        public BankAccount(int accountId,String password, String holderName,
+                           double balance ,LocalDateTime DateCreated) {
          this.accountId = accountId;
          this.holderName = holderName;
          this.password = password;
@@ -96,7 +97,7 @@ import java.util.List;
             {
                 setAuditlog(new Transaction (this.accountId,TransactionType.DEPOSIT
                     ,amount,this.balance,
-                    this.balance+amount,LocalDateTime.now()).printDetails());
+                    this.balance+amount).printDetails());
 
                 this.balance += amount;
 
@@ -112,7 +113,7 @@ import java.util.List;
             if (balance >= amount && amount>0) {
                 setAuditlog(new Transaction (this.accountId,TransactionType.WITHDRAW
                         ,amount,this.balance,
-                        this.balance+amount,LocalDateTime.now()).printDetails());
+                        this.balance+amount).printDetails());
                 this.balance -= amount;
                 return true;
             }
