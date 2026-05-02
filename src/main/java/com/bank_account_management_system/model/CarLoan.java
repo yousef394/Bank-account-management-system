@@ -35,20 +35,9 @@ public class CarLoan extends LoanAccount {
         ,getBalance(),getLoanAmount(),getRemainingAmount(),getCarModel());
     }
 
-    @Override
-    public void payInstallment(double amount)
-    {
-
-    }
-
-    @Override
-    public void applyMonthlyUpdate()
-    {
-
-    }
 
     @Override
     public String printDetails() {
-        return super.printDetails("CarLoan")+"\n"+CarModel;
+        return super.printDetails()+" CarModel: "+CarModel;
     }
 }

@@ -2,6 +2,7 @@ package com.bank_account_management_system.model;
 
 
 import com.bank_account_management_system.Data.BankAccountData;
+import com.bank_account_management_system.Data.TransactionData;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -16,12 +17,7 @@ import java.util.List;
         private String password;
         private double balance;
         private LocalDateTime DateCreated;
-        private List< String > auditLog = new ArrayList<>();
 
-        protected void setAuditlog(String Operation)
-        {
-            auditLog.add(Operation);
-        }
 
         public BankAccount(int accountId,String password, String holderName, double balance) {
             this.accountId = accountId;
@@ -95,12 +91,12 @@ import java.util.List;
 
 
 
-        public boolean deposit(double amount) {
+        public boolean deposit(double amount) throws IOException {
             if(amount > 0)
             {
-                setAuditlog(new Transaction (this.accountId,TransactionType.DEPOSIT
+                TransactionData.saveTransaction(new Transaction (this.accountId,TransactionType.DEPOSIT
                     ,amount,this.balance,
-                    this.balance+amount).printDetails());
+                    this.balance+amount));
 
                 this.balance += amount;
 
@@ -112,11 +108,11 @@ import java.util.List;
 
         }
 
-        public boolean withdraw(double amount) {
+        public boolean withdraw(double amount) throws IOException {
             if (balance >= amount && amount>0) {
-                setAuditlog(new Transaction (this.accountId,TransactionType.WITHDRAW
+                TransactionData.saveTransaction(new Transaction (this.accountId,TransactionType.WITHDRAW
                         ,amount,this.balance,
-                        this.balance+amount).printDetails());
+                        this.balance+amount));
                 this.balance -= amount;
                 return true;
             }
@@ -125,14 +121,29 @@ import java.util.List;
 
         }
 
-        protected String printDetails(String Type) {
-            return Type+"\n"+"Account Id: " + accountId +
-                    "\nHolder Name: " + holderName +
-                    "\nBalance: " + balance;
+        public boolean transfer(double amount) throws IOException {
+
+            return withdraw(amount);
+
         }
 
-         public List< String >  getAuditLog(){
-                 return new ArrayList<>(auditLog);
+        public String printDetails(String Type) {
+            return Type+" "+"Account Id: " + accountId +
+                    " Holder Name: " + holderName +
+                    " Balance: " + balance+
+                    " DateCreated: " + DateCreated;
+        }
+
+         public List< String >  getAuditLog() throws IOException {
+
+            ArrayList< String > log = new ArrayList<>();
+            ArrayList<Transaction> transactions = TransactionData.findAccountTransaction(accountId);
+
+            for (Transaction transaction : transactions) {
+                log.add(transaction.printDetails());
+            }
+
+                 return new ArrayList<>();
          }
 
          public abstract boolean Save() throws IOException;

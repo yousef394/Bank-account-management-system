@@ -43,7 +43,7 @@ public class CheckingAccount extends BankAccount {
     }
 
     @Override
-    public boolean withdraw(double amount) {
+    public boolean withdraw(double amount) throws IOException {
         if(amount>0) {
             if (getBalance() >= amount) {
                 return super.withdraw(amount);

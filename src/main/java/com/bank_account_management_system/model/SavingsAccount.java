@@ -1,6 +1,7 @@
 package com.bank_account_management_system.model;
 
 import com.bank_account_management_system.Data.BankAccountData;
+import com.bank_account_management_system.Data.TransactionData;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -45,8 +46,9 @@ public class SavingsAccount extends BankAccount{
 
     public void applyInterest()
     {
+        double amount = getBalance()*interestRate;
         setBalance((getBalance()*interestRate)+getBalance());
-        setAuditlog("Interest is applied "+getInterestRate());
+
     }
 
     //because it is saving account -->clint can't make withdraw
@@ -65,12 +67,12 @@ public class SavingsAccount extends BankAccount{
     public void applyMonthlyUpdate()
     {
         applyInterest();
-        setAuditlog("MonthlyUpdate is applied");
+
     }
 
     @Override
     public String printDetails() {
-        return "Saving Account: "+ super.printDetails("Saving Account")+
+        return  super.printDetails("Saving Account")+
                 " interestRate = "+interestRate;
     }
 

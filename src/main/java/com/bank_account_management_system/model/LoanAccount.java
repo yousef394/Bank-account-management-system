@@ -11,6 +11,7 @@ public abstract class LoanAccount extends BankAccount {
                        double balance,double loanAmount, double remainingAmount) {
         super(accountId,password, holderName, balance);
     }
+
     public LoanAccount(int accountId, String password, LocalDateTime dateCreated, String holderName,
                        double balance, double loanAmount, double remainingAmount) {
         super(accountId,password, holderName, balance,dateCreated);
@@ -33,7 +34,23 @@ public abstract class LoanAccount extends BankAccount {
 
 
 
-    abstract public void payInstallment(double amount);
+     public void payInstallment(double amount)
+    {
+
+
+    }
+
+    @Override
+    public void applyMonthlyUpdate()
+    {
+        payInstallment(0);
+    }
+
+    public String printDetails()
+    {
+       return super.printDetails("Loan Account: ")
+               +" Loan Amount: "+loanAmount+" Remaining Amount: "+remainingAmount;
+    }
 
 
     //because it is a LoanAccount -> clint can't make withdraw

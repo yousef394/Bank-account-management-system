@@ -38,19 +38,8 @@ public class HomeLoan extends LoanAccount {
     }
 
     @Override
-    public void payInstallment(double amount)
-    {
-
-    }
-
-    @Override
-    public void applyMonthlyUpdate()
-    {
-
-    }
-
-    @Override
     public String printDetails() {
-        return super.printDetails("HomeLoan");
+        return super.printDetails()+" propertyAddress: " + propertyAddress;
+
     }
 }
