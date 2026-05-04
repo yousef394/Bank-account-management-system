@@ -1,157 +1,108 @@
 package com.bank_account_management_system.model;
 
-
-import com.bank_account_management_system.Data.BankAccountData;
-import com.bank_account_management_system.Data.TransactionData;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
+public abstract class BankAccount implements Printable, Auditable {
 
- public abstract class BankAccount implements Auditable , Printable {
+    protected int accountId;
+    protected String holderName;
+    protected String password;
+    protected double balance;
+    protected LocalDateTime dateCreated;
 
-        private int accountId;
-        private String holderName;
-        private String password;
-        private double balance;
-        private LocalDateTime DateCreated;
+    // Constructor for new accounts
+    public BankAccount(int accountId, String password, String holderName, double balance) {
+        this.accountId = accountId;
+        this.password = password;
+        this.holderName = holderName;
+        this.balance = Math.max(balance, 0);
+        this.dateCreated = LocalDateTime.now();
+    }
 
+    // Constructor for loading from file
+    public BankAccount(int accountId, String password, String holderName,
+                       double balance, LocalDateTime dateCreated) {
+        this.accountId = accountId;
+        this.password = password;
+        this.holderName = holderName;
+        this.balance = Math.max(balance, 0);
+        this.dateCreated = dateCreated;
+    }
 
-        public BankAccount(int accountId,String password, String holderName, double balance) {
-            this.accountId = accountId;
-            this.holderName = holderName;
-            this.password = password;
+    // ================= Getters =================
 
-            if(balance>=0){
-                this.balance = balance;
-            }
-            else
-                this.balance = 0;
+    public int getAccountId() {
+        return accountId;
+    }
 
-            this.DateCreated = LocalDateTime.now();
+    public String getHolderName() {
+        return holderName;
+    }
 
+    public double getBalance() {
+        return balance;
+    }
 
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    // ================= Setters =================
+
+    public void setHolderName(String holderName) {
+        this.holderName = holderName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    protected void setBalance(double balance) {
+        this.balance = Math.max(balance, 0);
+    }
+
+    // ================= Core Logic =================
+
+    public boolean deposit(double amount) {
+        if (amount <= 0) return false;
+
+        balance += amount;
+        return true;
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount <= 0 || amount > balance) return false;
+
+        balance -= amount;
+        return true;
+    }
+
+    public boolean transfer(BankAccount target, double amount) {
+        if (target == null) return false;
+
+        if (this.withdraw(amount)) {
+            target.deposit(amount);
+            return true;
         }
+        return false;
+    }
 
-        public BankAccount(int accountId,String password, String holderName,
-                           double balance ,LocalDateTime DateCreated) {
-         this.accountId = accountId;
-         this.holderName = holderName;
-         this.password = password;
+    // ================= Interfaces =================
 
-         if(balance>=0){
-             this.balance = balance;
-         }
-         else
-             this.balance = 0;
+    @Override
+    public String printDetails() {
+        return "Account ID: " + accountId +
+                " | Name: " + holderName +
+                " | Balance: " + balance +
+                " | Created: " + dateCreated;
+    }
 
-         this.DateCreated =DateCreated;
+    // ================= Abstract =================
 
+    public abstract void applyMonthlyUpdate();
 
-     }
-
-
-        public int getAccountId() {
-            return accountId;
-        }
-
-        public String getHolderName() {
-            return holderName;
-        }
-
-        public void setHolderName(String holderName) {
-            this.holderName = holderName;
-        }
-
-        public double getBalance() {
-            return balance;
-        }
-
-        public void setBalance(double balance) {
-            this.balance = balance;
-        }
-
-        public LocalDateTime getDateCreated() {
-            return DateCreated;
-        }
-
-        public void setDateCreated(LocalDateTime dateCreated) {
-            DateCreated = dateCreated;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-
-
-        public boolean deposit(double amount) throws IOException {
-            if(amount > 0)
-            {
-                TransactionData.saveTransaction(new Transaction (this.accountId,TransactionType.DEPOSIT
-                    ,amount,this.balance,
-                    this.balance+amount));
-
-                this.balance += amount;
-
-                return true;
-            }
-            else
-                return false;
-
-
-        }
-
-        public boolean withdraw(double amount) throws IOException {
-            if (balance >= amount && amount>0) {
-                TransactionData.saveTransaction(new Transaction (this.accountId,TransactionType.WITHDRAW
-                        ,amount,this.balance,
-                        this.balance+amount));
-                this.balance -= amount;
-                return true;
-            }
-            else
-                return false;
-
-        }
-
-        public boolean transfer(double amount) throws IOException {
-
-            return withdraw(amount);
-
-        }
-
-        public String printDetails(String Type) {
-            return Type+" "+"Account Id: " + accountId +
-                    " Holder Name: " + holderName +
-                    " Balance: " + balance+
-                    " DateCreated: " + DateCreated;
-        }
-
-         public List< String >  getAuditLog() throws IOException {
-
-            ArrayList< String > log = new ArrayList<>();
-            ArrayList<Transaction> transactions = TransactionData.findAccountTransaction(accountId);
-
-            for (Transaction transaction : transactions) {
-                log.add(transaction.printDetails());
-            }
-
-                 return new ArrayList<>();
-         }
-
-         public abstract boolean Save() throws IOException;
-
-
-         public abstract void applyMonthlyUpdate();
-
-        public abstract String printDetails();
 }
-
-
