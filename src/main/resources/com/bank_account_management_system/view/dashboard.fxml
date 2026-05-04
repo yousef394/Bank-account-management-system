@@ -1,7 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
+<BorderPane prefHeight="750" prefWidth="1200"
+            style="-fx-background-color:#061A3A;"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.bank_account_management_system.controller.DashboardController">
+
+    <!-- TOP -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20"
+              prefHeight="70"
+              style="-fx-background-color:#0D2F66;">
+            <padding>
+                <Insets top="15" right="25" bottom="15" left="25"/>
+            </padding>
+
+            <Label text="Bank Dashboard"
+                   style="-fx-text-fill:white; -fx-font-size:28; -fx-font-weight:bold;" />
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Logout"
+                    fx:id="logoutBtn"
+                    onAction="#handleLogout"
+                    prefWidth="120" prefHeight="40"
+                    style="-fx-background-color:#2563EB; -fx-text-fill:white; -fx-background-radius:8;" />
+        </HBox>
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <VBox spacing="20">
+
+            <padding>
+                <Insets top="20" right="25" bottom="20" left="25"/>
+            </padding>
+
+            <!-- Welcome -->
+            <Label fx:id="welcomeLabel"
+                   text="Welcome, Yousef"
+                   style="-fx-text-fill:white; -fx-font-size:26; -fx-font-weight:bold;" />
+
+            <!-- CARDS -->
+            <HBox spacing="20">
+
+                <VBox HBox.hgrow="ALWAYS"
+                      prefHeight="130"
+                      style="-fx-background-color:#0D2F66; -fx-background-radius:12;">
+                    <padding><Insets top="20" left="20"/></padding>
+
+                    <Label text="Total Balance"
+                           style="-fx-text-fill:#cbd5e1; -fx-font-size:18;" />
+
+                    <Label fx:id="balanceLabel"
+                           text="0"
+                           style="-fx-text-fill:#3B82F6; -fx-font-size:34; -fx-font-weight:bold;" />
+                </VBox>
+
+                <VBox HBox.hgrow="ALWAYS"
+                      prefHeight="130"
+                      style="-fx-background-color:#0D2F66; -fx-background-radius:12;">
+                    <padding><Insets top="20" left="20"/></padding>
+
+                    <Label text="Accounts Count"
+                           style="-fx-text-fill:#cbd5e1; -fx-font-size:18;" />
+
+                    <Label fx:id="accountsCountLabel"
+                           text="0"
+                           style="-fx-text-fill:#22C55E; -fx-font-size:34; -fx-font-weight:bold;" />
+                </VBox>
+
+                <VBox HBox.hgrow="ALWAYS"
+                      prefHeight="130"
+                      style="-fx-background-color:#0D2F66; -fx-background-radius:12;">
+                    <padding><Insets top="20" left="20"/></padding>
+
+                    <Label text="Loans"
+                           style="-fx-text-fill:#cbd5e1; -fx-font-size:18;" />
+
+                    <Label fx:id="loansLabel"
+                           text="0"
+                           style="-fx-text-fill:#F97316; -fx-font-size:34; -fx-font-weight:bold;" />
+                </VBox>
+
+            </HBox>
+
+            <!-- TABLE TITLE -->
+            <Label text="Accounts Table"
+                   style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;" />
+
+            <!-- TABLE -->
+            <TableView fx:id="accountsTable"
+                       prefHeight="300"
+                       style="-fx-background-color:#0D2F66;">
+
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="150"/>
+                    <TableColumn fx:id="balanceColumn" text="Balance" prefWidth="300"/>
+                    <TableColumn fx:id="typeColumn" text="Type" prefWidth="300"/>
+                </columns>
+            </TableView>
+
+            <!-- BUTTONS -->
+            <HBox spacing="15" alignment="CENTER">
+
+                <Button text="Deposit"
+                        onAction="#handleDeposit"
+                        prefWidth="150" prefHeight="50"
+                        style="-fx-background-color:#2563EB; -fx-text-fill:white;" />
+
+                <Button text="Withdraw"
+                        onAction="#handleWithdraw"
+                        prefWidth="150" prefHeight="50"
+                        style="-fx-background-color:#DC2626; -fx-text-fill:white;" />
+
+                <Button text="Transfer"
+                        onAction="#handleTransfer"
+                        prefWidth="150" prefHeight="50"
+                        style="-fx-background-color:#7C3AED; -fx-text-fill:white;" />
+
+                <Button text="Add Account"
+                        onAction="#handleAddAccount"
+                        prefWidth="150" prefHeight="50"
+                        style="-fx-background-color:#16A34A; -fx-text-fill:white;" />
+
+                <Button text="Delete Account"
+                        onAction="#handleDeleteAccount"
+                        prefWidth="150" prefHeight="50"
+                        style="-fx-background-color:#B91C1C; -fx-text-fill:white;" />
+
+            </HBox>
+
+            <!-- FOOTER -->
+            <Label fx:id="lastUpdatedLabel"
+                   text="Last Updated: Today"
+                   style="-fx-text-fill:#cbd5e1; -fx-font-size:14;" />
+
+        </VBox>
+    </center>
+
+</BorderPane>

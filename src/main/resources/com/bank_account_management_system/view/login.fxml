@@ -1,7 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
+<BorderPane prefHeight="600" prefWidth="900"
+            style="-fx-background-color: linear-gradient(to bottom, #061A3A, #0D2F66);"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.bank_account_management_system.controller.LoginController">
+
+    <center>
+        <StackPane>
+
+            <VBox alignment="CENTER" spacing="20"
+                  maxWidth="350"
+                  style="-fx-background-color:#0D2F66;
+                         -fx-background-radius:20;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 5);">
+
+                <padding>
+                    <Insets top="30" bottom="30" left="25" right="25"/>
+                </padding>
+
+                <!-- TITLE -->
+                <Label text="Welcome Back"
+                       style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;" />
+
+                <!-- SUBTITLE -->
+                <Label text="Login to your account"
+                       style="-fx-text-fill:#94A3B8; -fx-font-size:14;" />
+
+                <!-- USERNAME -->
+                <TextField fx:id="usernameField"
+                           promptText="Username"
+                           style="-fx-background-radius:10;
+                                  -fx-padding:10;" />
+
+                <!-- PASSWORD -->
+                <PasswordField fx:id="passwordField"
+                               promptText="Password"
+                               style="-fx-background-radius:10;
+                                      -fx-padding:10;" />
+
+                <!-- ERROR -->
+                <Label fx:id="errorLabel"
+                       style="-fx-text-fill:#EF4444;" />
+
+                <!-- LOGIN BUTTON -->
+                <Button text="Login"
+                        onAction="#handleLogin"
+                        prefWidth="200"
+                        prefHeight="45"
+                        style="-fx-background-color:#3B82F6;
+                               -fx-text-fill:white;
+                               -fx-font-size:14;
+                               -fx-background-radius:12;" />
+
+            </VBox>
+
+        </StackPane>
+    </center>
+
+</BorderPane>
