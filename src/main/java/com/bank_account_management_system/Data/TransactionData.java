@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class TransactionData {
 
-    static String transactionFileName = "C:\\Users\\pc\\Bank-account-management-system\\src\\main\\" +
-            "java\\com\\bank_account_management_system\\Data\\transactionsFile.txt";
+    static String transactionFileName = "src\\main\\java\\com\\bank_account_management_system\\Data\\transactionsFile.txt";
     static String delemeter = "#//#";
 
     static public boolean saveTransaction(Transaction transaction) throws IOException {

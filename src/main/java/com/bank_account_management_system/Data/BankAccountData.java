@@ -14,8 +14,7 @@ public class BankAccountData {
 
     static public class CheckingAccountData{
 
-        static String checkingFileName = "C:\\Users\\pc\\Bank-account-management-system\\" +
-                "src\\main\\java\\com\\bank_account_management_system\\Data\\checkingAccountFile.txt";
+        static String checkingFileName = "src\\main\\java\\com\\bank_account_management_system\\Data\\checkingAccountFile.txt";
         static String delemetar="#//#";
 
         public static CheckingAccount Find(int accountId,String password) throws IOException {
@@ -159,8 +158,7 @@ public class BankAccountData {
 
     static public class SavingAccountData{
 
-        static String savingsFileName = "C:\\Users\\pc\\Bank-account-management-system\\src\\main\\java" +
-                "\\com\\bank_account_management_system\\Data\\savingsAccountFile.txt";
+        static String savingsFileName = "src\\main\\java\\com\\bank_account_management_system\\Data\\savingsAccountFile.txt";
         static String delemetar="#//#";
 
         public static SavingsAccount Find(int accountId, String password) throws IOException {
@@ -305,8 +303,7 @@ public class BankAccountData {
 
     static public class CarLoanData{
 
-        static String carLoanFileName = "C:\\Users\\pc\\Bank-account-management-system\\src\\main\\java" +
-                "\\com\\bank_account_management_system\\Data\\carLoan.txt";
+        static String carLoanFileName = "src\\main\\java\\com\\bank_account_management_system\\Data\\carLoan.txt";
         static String delemetar="#//#";
 
         public static CarLoan Find(int accountId, String password) throws IOException {
@@ -461,8 +458,7 @@ public class BankAccountData {
 
     static public class HomeLoanData{
 
-        static String homeLoanFileName = "C:\\Users\\pc\\Bank-account-management-system\\src\\" +
-                "main\\java\\com\\bank_account_management_system\\Data\\homeLoan.txt";
+        static String homeLoanFileName = "src\\main\\java\\com\\bank_account_management_system\\Data\\homeLoan.txt";
         static String delemetar="#//#";
 
         public static HomeLoan Find(int accountId, String password) throws IOException {
