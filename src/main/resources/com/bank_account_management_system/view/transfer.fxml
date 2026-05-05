@@ -34,7 +34,7 @@
 
         <Button onAction="#handleTransfer" prefWidth="120" style="-fx-background-color:#7C3AED; -fx-text-fill:white;" text="Transfer" />
 
-        <Button onAction="#handleCancel" prefWidth="120" style="-fx-background-color:#DC2626; -fx-text-fill:white;" text="Cancel" />
+        <Button fx:id="cancelBtn" onAction="#handleCancel" prefWidth="120" style="-fx-background-color:#DC2626; -fx-text-fill:white;" text="Cancel" />
 
     </HBox>
 

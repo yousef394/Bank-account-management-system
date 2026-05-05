@@ -108,27 +108,32 @@
             <!-- BUTTONS -->
             <HBox spacing="15" alignment="CENTER">
 
-                <Button text="Deposit"
+                <Button fx:id="depositBtn"
+                        text="Deposit"
                         onAction="#handleDeposit"
                         prefWidth="150" prefHeight="50"
                         style="-fx-background-color:#2563EB; -fx-text-fill:white;" />
 
-                <Button text="Withdraw"
+                <Button fx:id="withdrawBtn"
+                        text="Withdraw"
                         onAction="#handleWithdraw"
                         prefWidth="150" prefHeight="50"
                         style="-fx-background-color:#DC2626; -fx-text-fill:white;" />
 
-                <Button text="Transfer"
+                <Button fx:id="transferBtn"
+                        text="Transfer"
                         onAction="#handleTransfer"
                         prefWidth="150" prefHeight="50"
                         style="-fx-background-color:#7C3AED; -fx-text-fill:white;" />
 
-                <Button text="Add Account"
+                <Button fx:id="addAccountBtn"
+                        text="Add Account"
                         onAction="#handleAddAccount"
                         prefWidth="150" prefHeight="50"
                         style="-fx-background-color:#16A34A; -fx-text-fill:white;" />
 
-                <Button text="Delete Account"
+                <Button fx:id="removeAccountBtn"
+                        text="Delete Account"
                         onAction="#handleDeleteAccount"
                         prefWidth="150" prefHeight="50"
                         style="-fx-background-color:#B91C1C; -fx-text-fill:white;" />
