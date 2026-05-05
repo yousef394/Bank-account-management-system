@@ -7,7 +7,7 @@
 
 <!-- Main Layout -->
 <BorderPane prefHeight="650" prefWidth="950"
-            stylesheets="@reports.css"
+            stylesheets="@Reports.css"
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.bank_account_management_system.controller.ReportsController">
