@@ -1,5 +1,6 @@
 package com.bank_account_management_system.controller;
 
+import com.bank_account_management_system.service.ReportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,6 @@ public class TransferController {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        DashboardController.closePopup(actionEvent);
+        ReportService.closePopup(actionEvent);
     }
 }

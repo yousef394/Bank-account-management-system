@@ -1,5 +1,6 @@
 package com.bank_account_management_system.controller;
 
+import com.bank_account_management_system.service.ReportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,7 +21,8 @@ public class LoginController {
     private Button btnLogin;
 
     public void handleLogin(ActionEvent event) throws IOException {
-        DashboardController.changeScene("dashboard.fxml", event);
+
+        ReportService.changeScene("dashboard.fxml", event);
 
     }
 }

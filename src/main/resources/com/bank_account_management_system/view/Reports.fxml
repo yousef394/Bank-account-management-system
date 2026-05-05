@@ -73,7 +73,7 @@
                        style="-fx-text-fill:white; -fx-font-size:16; -fx-font-weight:bold;" />
 
                 <!-- Bar Chart Section with Inline Axis Styling -->
-                <BarChart fx:id="reportBarChart" title="Transactions per Account" animated="false">
+                <BarChart fx:id="reportBarChart" title="Transactions per Account" animated="false" prefHeight="350">
                     <xAxis><CategoryAxis label="Account ID" tickLabelFill="white"/></xAxis>
                     <yAxis><NumberAxis label="Count" tickLabelFill="white"/></yAxis>
                 </BarChart>
@@ -92,6 +92,7 @@
                           editable="false"
                           VBox.vgrow="ALWAYS"
                           wrapText="true"
+                          prefHeight="300"
                           style="-fx-font-family: 'Consolas', monospace;
                                  -fx-control-inner-background:#061A3A;
                                  -fx-text-fill: white;
