@@ -1,155 +1,134 @@
 package com.bank_account_management_system.service;
 
-import com.bank_account_management_system.Data.BankAccountData;
 
+import com.bank_account_management_system.Repository.*;
 import com.bank_account_management_system.model.*;
 
-import javax.swing.*;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
-public class AccountService  {
+public class AccountService {
 
-    public static class createAccount {
-        static public boolean CheckingAccount ( int id, String password, String holderName,
-        double balance, double overdraft ) throws IOException {
-            return BankAccountData.CheckingAccountData.Add(id, password, holderName, balance, overdraft);
+    public static enum accountType {
+        CHECKING,
+        SAVINGS,
+        CARLOAN,
+        HOMELOAN
+    }
 
-        }
+    public static boolean createAccount(BankAccount account) {
+        if (account instanceof CheckingAccount)
+            CheckingAccountRepository.add((CheckingAccount) account);
+        else if(account instanceof SavingsAccount)
+            SavingsAccountRepository.add((SavingsAccount) account);
+        else if (account instanceof CarLoan)
+            CarLoanRepository.add((CarLoan) account);
+        else if (account instanceof HomeLoan)
+            HomeLoanRepository.add((HomeLoan) account);
 
-        static public boolean SavingAccount ( int id, String password, String holderName,
-        double balance, double interestRate ) throws IOException {
-            return BankAccountData.SavingAccountData.Add(id, password, holderName, balance, interestRate);
-
-        }
-
-        static public boolean CarLoan ( int id, String password, String holderName,
-        double balance, double loanAmount,
-        double remainingAmount, String CarModel) throws IOException {
-            return BankAccountData.CarLoanData.Add(id, password, holderName, balance, loanAmount, remainingAmount, CarModel);
-
-        }
-
-        static public boolean HomeLoan ( int id, String password, String holderName,
-        double balance, double loanAmount,
-        double remainingAmount, String propertyAddress) throws IOException {
-            return BankAccountData.CarLoanData.Add(id, password, holderName, balance, loanAmount, remainingAmount, propertyAddress);
-
-        }
+    return false;
 
     }
 
-    public static class DeleteAccount {
-        static public boolean CheckingAccount ( int id) throws IOException {
-            return BankAccountData.CheckingAccountData.Delete(id);
+    public static boolean delete(int id, accountType type) {
+        switch (type) {
+            case CHECKING:
+                return CheckingAccountRepository.delete(id);
+            case SAVINGS:
+                return SavingsAccountRepository.delete(id);
+            case CARLOAN:
+                return CarLoanRepository.delete(id);
+            case HOMELOAN:
+                return HomeLoanRepository.delete(id);
         }
-        static public boolean SavingAccount ( int id) throws IOException {
-            return BankAccountData.SavingAccountData.Delete(id);
-        }
-        static public boolean CarLoan ( int id) throws IOException {
-            return BankAccountData.CarLoanData.Delete(id);
-        }
-        static public boolean homeLoan ( int id) throws IOException {
-            return BankAccountData.CarLoanData.Delete(id);
-        }
+        return false;
     }
 
-    public static class FindAccount {
-        static public CheckingAccount checkingAccount ( int id,String password) throws IOException {
-            return BankAccountData.CheckingAccountData.Find(id, password);
+    public static BankAccount find(int id, accountType type) {
+        switch (type) {
+            case CHECKING:
+                return CheckingAccountRepository.findById(id);
+            case SAVINGS:
+                return SavingsAccountRepository.findById(id);
+            case CARLOAN:
+                return CarLoanRepository.findById(id);
+            case HOMELOAN:
+                return HomeLoanRepository.findById(id);
         }
-        static public SavingsAccount savingAccount ( int id,String password) throws IOException {
-            return BankAccountData.SavingAccountData.Find(id, password);
-        }
-        static public CarLoan carLoan ( int id,String password) throws IOException {
-            return BankAccountData.CarLoanData.Find(id, password);
-        }
-        static public HomeLoan homeLoan ( int id,String password) throws IOException {
-            return BankAccountData.HomeLoanData.Find(id, password);
-        }
+        return null;
     }
 
-    public static class SaveAccount {
-        static public boolean checkingAccount (CheckingAccount checkingAccount) throws IOException
-        {
-            return checkingAccount.Save();
-        }
-        static public boolean savingsAccount(SavingsAccount savingsAccount) throws IOException {
-            return savingsAccount.Save();
-        }
-        static public boolean carLoan (CarLoan carLoan) throws IOException
-        {
-            return carLoan.Save();
-        }
-        static public boolean homeLoan (HomeLoan homeLoan) throws IOException
-        {
-            return homeLoan.Save();
-        }
+    public static boolean save(BankAccount account) {
+        if (account instanceof CheckingAccount)
+            CheckingAccountRepository.update((CheckingAccount) account);
+        else if(account instanceof SavingsAccount)
+            SavingsAccountRepository.update((SavingsAccount) account);
+        else if (account instanceof CarLoan)
+            CarLoanRepository.update((CarLoan) account);
+        else if (account instanceof HomeLoan)
+            HomeLoanRepository.update((HomeLoan) account);
+
+        return false;
     }
 
-    public static ArrayList<BankAccount> loadAccounts() throws IOException {
+    public static ArrayList<BankAccount> loadAccounts() {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
-        for(CheckingAccount CA : BankAccountData.CheckingAccountData.GetAllAccounts())
+        for (CheckingAccount CA : CheckingAccountRepository.getAllAccounts())
             accounts.add(CA);
 
-        for(SavingsAccount SA : BankAccountData.SavingAccountData.GetAllAccounts())
+        for (SavingsAccount SA : SavingsAccountRepository.getAllAccounts())
             accounts.add(SA);
 
-        for (CarLoan CL : BankAccountData.CarLoanData.GetAllAccounts())
+        for (CarLoan CL : CarLoanRepository.getAllAccounts())
             accounts.add(CL);
 
-        for (HomeLoan HL : BankAccountData.HomeLoanData.GetAllAccounts())
+        for (HomeLoan HL : HomeLoanRepository.getAllAccounts())
             accounts.add(HL);
 
         return accounts;
     }
 
-    public static void applyMonthlyUpdates(BankAccountData bankAccountData) throws IOException {
+    public static void applyMonthlyUpdates() {
         ArrayList<BankAccount> accounts = loadAccounts();
 
-        for(BankAccount BA : accounts)
+        for (BankAccount BA : accounts)
             BA.applyMonthlyUpdate();
 
 
     }
 
+    static public boolean deposite(int id, Double amount, accountType type) {
+        switch (type) {
+            case CHECKING:
+                CheckingAccount CA = CheckingAccountRepository.findById(id);
+                CA.deposit(amount);
+                return save(CA);
+            case SAVINGS:
+                SavingsAccount SA = SavingsAccountRepository.findById(id);
+                SA.deposit(amount);
+                return save(SA);
+            case CARLOAN:
+                CarLoan cAR = CarLoanRepository.findById(id);
+                cAR.deposit(amount);
+                return save(cAR);
+            case HOMELOAN:
+                HomeLoan hL = HomeLoanRepository.findById(id);
+                hL.deposit(amount);
+                return save(hL);
 
-    public static class Deposite{
-        static public boolean checkingAccount (int id,String Password,Double amount) throws IOException {
-            CheckingAccount checkingAccount = BankAccountData.CheckingAccountData.Find(id, Password);
-            checkingAccount.deposit(amount);
-
-            return checkingAccount.Save();
         }
-        static public boolean savingAccount (int id,String Password,Double amount) throws IOException {
-            SavingsAccount savingsAccount = BankAccountData.SavingAccountData.Find(id, Password);
-            savingsAccount.deposit(amount);
-
-            return savingsAccount.Save();
-        }
-        static public boolean carLoan (int id,String Password,Double amount) throws IOException {
-            CarLoan carLoan = BankAccountData.CarLoanData.Find(id, Password);
-            carLoan.deposit(amount);
-
-            return carLoan.Save();
-        }
-        static public boolean homeLoan (int id,String Password,Double amount) throws IOException {
-            HomeLoan homeLoan = BankAccountData.HomeLoanData.Find(id, Password);
-            homeLoan.deposit(amount);
-
-            return homeLoan.Save();
-        }
+        return false;
     }
 
-    public static class withdraw{
-        static public boolean CheckingAccount (int id,String Password,Double amount) throws IOException {
-            CheckingAccount checkingAccount = BankAccountData.CheckingAccountData.Find(id, Password);
-            checkingAccount.withdraw(amount);
-            return checkingAccount.Save();
-        }
+    static public boolean withdrawFromCheckingAccount(int id, Double amount) {
+        CheckingAccount checkingAccount = CheckingAccountRepository.findById(id);
+
+        if(checkingAccount == null)
+            return false;
+
+        checkingAccount.withdraw(amount);
+        return save(checkingAccount);
     }
-
-
 
 }
