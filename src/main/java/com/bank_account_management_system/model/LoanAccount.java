@@ -48,7 +48,7 @@ public abstract class LoanAccount extends BankAccount {
 
     public String printDetails()
     {
-       return super.printDetails("Loan Account: ")
+       return super.printDetails()
                +" Loan Amount: "+loanAmount+" Remaining Amount: "+remainingAmount;
     }
 

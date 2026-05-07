@@ -1,20 +1,24 @@
 package com.bank_account_management_system.model;
 
-import com.bank_account_management_system.Data.BankAccountData;
+import com.bank_account_management_system.Repository.CheckingAccountRepository;
+import com.bank_account_management_system.Repository.TransactionRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class CheckingAccount extends BankAccount {
     private double overdraftLimit;
     private double fee = 0;
 
+    // constructor for new account
     public CheckingAccount(int id ,String Password,String holderName,
                            double balance, double overdraft ) {
         super(id,Password,holderName,balance);
         this.overdraftLimit = overdraft;
         this.fee = fee;
     }
+   // constructor for existed account
     public CheckingAccount(int id , String Password, LocalDateTime dateCreated, String holderName,
                            double balance, double overdraft ) {
         super(id,Password,holderName,balance,dateCreated);
@@ -30,6 +34,8 @@ public class CheckingAccount extends BankAccount {
         this.fee = fee;
     }
 
+
+
     public double getOverdraftLimit() {
         return overdraftLimit;
     }
@@ -41,18 +47,22 @@ public class CheckingAccount extends BankAccount {
     public double getFee() {
         return fee;
     }
+    public void setFee(double fee) {
+        this.fee = fee;
+    }
+
 
     @Override
-    public boolean withdraw(double amount) throws IOException {
+    public boolean withdraw(double amount)  {
         if(amount>0) {
             if (getBalance() >= amount) {
                 return super.withdraw(amount);
             }
             else if (overdraftLimit + getBalance() >= amount) {
 
-                fee = (amount - getBalance()) * 1.25;
+                fee = (amount - getBalance()) * 0.25;
                 super.withdraw(amount);
-                setAuditlog("there is a fee = " + fee);
+
                 return true;
             } else
                 return false;
@@ -63,40 +73,28 @@ public class CheckingAccount extends BankAccount {
         }
 
     @Override
-    public boolean Save() throws IOException {
-        return BankAccountData.CheckingAccountData.Update(getAccountId(),getPassword(),
-                getHolderName(),getBalance(),getOverdraftLimit());
-    }
-
-    @Override
     public void applyMonthlyUpdate() {
           if (fee>0)
 
           {
               if( getBalance()>=fee ) {
                   setBalance(getBalance() - fee);
-                  setAuditlog("fee applied :" + fee);
-                  fee = 0;
+                    fee = 0;
               }
 
               else
-              {
-                  setAuditlog("Your Balance is lower than "+fee);
                   fee*=1.5;
-                  setAuditlog("the fee increased to "+fee);
 
-              }
 
           }
 
           else
-              setAuditlog("there is no fee");
-
+              fee=0;
     }
 
     @Override
     public String printDetails() {
-        return  super.printDetails("checking Account")+ " OverdraftLimit: "+overdraftLimit
+        return  super.printDetails()+ " | OverdraftLimit: "+overdraftLimit
                 + " Fee: "+fee;
 
     }

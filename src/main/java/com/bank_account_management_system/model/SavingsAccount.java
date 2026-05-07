@@ -1,10 +1,8 @@
 package com.bank_account_management_system.model;
 
-import com.bank_account_management_system.Data.BankAccountData;
-import com.bank_account_management_system.Data.TransactionData;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
+
 
 public class SavingsAccount extends BankAccount{
 
@@ -57,11 +55,6 @@ public class SavingsAccount extends BankAccount{
        return false;
     }
 
-    @Override
-    public boolean Save() throws IOException {
-        return BankAccountData.SavingAccountData.Update(getAccountId(),getPassword(),
-                getHolderName(),getBalance(),getInterestRate());
-    }
 
     @Override
     public void applyMonthlyUpdate()
@@ -72,8 +65,8 @@ public class SavingsAccount extends BankAccount{
 
     @Override
     public String printDetails() {
-        return  super.printDetails("Saving Account")+
-                " interestRate = "+interestRate;
+        return  super.printDetails()+
+                " | interestRate = "+interestRate;
     }
 
 

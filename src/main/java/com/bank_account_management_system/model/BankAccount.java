@@ -1,6 +1,10 @@
 package com.bank_account_management_system.model;
 
+import com.bank_account_management_system.Repository.TransactionRepository;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BankAccount implements Printable, Auditable {
 
@@ -61,7 +65,7 @@ public abstract class BankAccount implements Printable, Auditable {
         this.password = password;
     }
 
-    protected void setBalance(double balance) {
+    public void setBalance(double balance) {
         this.balance = Math.max(balance, 0);
     }
 
@@ -101,6 +105,16 @@ public abstract class BankAccount implements Printable, Auditable {
                 " | Created: " + dateCreated;
     }
 
+
+    @Override
+    public List<String> getAuditLog()  {
+       ArrayList <String> AuditLog =  new ArrayList<>();
+        for(Transaction T : TransactionRepository.accountTransactions(getAccountId()) )
+            AuditLog.add(T.printDetails());
+
+        AuditLog.add(printDetails());
+        return AuditLog;
+    }
     // ================= Abstract =================
 
     public abstract void applyMonthlyUpdate();

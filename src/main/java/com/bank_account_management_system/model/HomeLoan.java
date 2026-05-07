@@ -1,9 +1,10 @@
 package com.bank_account_management_system.model;
 
-import com.bank_account_management_system.Data.BankAccountData;
+import com.bank_account_management_system.Repository.HomeLoanRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class HomeLoan extends LoanAccount {
     private String propertyAddress;
@@ -31,15 +32,12 @@ public class HomeLoan extends LoanAccount {
     }
 
 
-    @Override
-    public boolean Save() throws IOException {
-        return BankAccountData.HomeLoanData.Update(getAccountId(),getPassword(),getHolderName()
-        ,getBalance(),getLoanAmount(),getRemainingAmount(),getPropertyAddress());
-    }
 
     @Override
     public String printDetails() {
         return super.printDetails()+" propertyAddress: " + propertyAddress;
 
     }
+
+
 }
