@@ -92,28 +92,37 @@ public class AccountService {
     public static void applyMonthlyUpdates() {
         ArrayList<BankAccount> accounts = loadAccounts();
 
-        for (BankAccount BA : accounts)
+        for (BankAccount BA : accounts) {
+
             BA.applyMonthlyUpdate();
 
-
+        }
     }
 
     static public boolean deposite(int id, Double amount, accountType type) {
         switch (type) {
             case CHECKING:
                 CheckingAccount CA = CheckingAccountRepository.findById(id);
+            TransactionRepository.saveTransaction(new Transaction( CA.getAccountId(),TransactionType.DEPOSIT,
+                    amount,CA.getBalance(),CA.getBalance()+amount));
                 CA.deposit(amount);
                 return save(CA);
             case SAVINGS:
                 SavingsAccount SA = SavingsAccountRepository.findById(id);
+                TransactionRepository.saveTransaction(new Transaction( SA.getAccountId(),TransactionType.DEPOSIT,
+                        amount,SA.getBalance(),SA.getBalance()+amount));
                 SA.deposit(amount);
                 return save(SA);
             case CARLOAN:
                 CarLoan cAR = CarLoanRepository.findById(id);
+                TransactionRepository.saveTransaction(new Transaction( cAR.getAccountId(),TransactionType.DEPOSIT,
+                        amount,cAR.getBalance(),cAR.getBalance()+amount));
                 cAR.deposit(amount);
                 return save(cAR);
             case HOMELOAN:
                 HomeLoan hL = HomeLoanRepository.findById(id);
+                TransactionRepository.saveTransaction(new Transaction( hL.getAccountId(),TransactionType.DEPOSIT,
+                        amount,hL.getBalance(),hL.getBalance()+amount));
                 hL.deposit(amount);
                 return save(hL);
 
@@ -127,8 +136,16 @@ public class AccountService {
         if(checkingAccount == null)
             return false;
 
+        TransactionRepository.saveTransaction(new Transaction( checkingAccount.getAccountId(),TransactionType.WITHDRAW,
+                amount,checkingAccount.getBalance(),checkingAccount.getBalance()+amount));
+
         checkingAccount.withdraw(amount);
         return save(checkingAccount);
+    }
+
+    static public boolean Transfer(int id1 ,int id2,accountType type, double amount ) {
+       return withdrawFromCheckingAccount(id1,amount)
+                    && deposite(id2,amount,type);
     }
 
 }

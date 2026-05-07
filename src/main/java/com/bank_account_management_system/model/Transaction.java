@@ -1,6 +1,7 @@
 package com.bank_account_management_system.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Transaction implements Printable {
 
@@ -16,7 +17,7 @@ public class Transaction implements Printable {
 
         this.type = type;
         this.amount = amount;
-        this.date = date;
+        this.date = LocalDateTime.now();
         this.AccountId = AccountId;
         this.BalanceBefore = BalanceBefore;
         this.BalanceAfter = BalanceAfter;
@@ -77,13 +78,13 @@ public class Transaction implements Printable {
     @Override
     public String printDetails()
     {
-        return "Transaction  "+
+        return
                 " Account Id: "+AccountId+
-                " Type: "+type.toString()+
-                " Amount: "+ amount+
-                " BalanceBefore: "+BalanceBefore+
-                " BalanceAfter: "+BalanceAfter+
-                " Date: "+date.toString();
+                " | Type: "+type.toString()+
+                " | Amount: "+ amount+
+                " | BalanceBefore: "+BalanceBefore+
+                " | BalanceAfter: "+BalanceAfter+
+                " | Date: "+date.toString();
 
     }
 
