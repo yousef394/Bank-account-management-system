@@ -59,9 +59,8 @@ import java.util.ArrayList;
         CheckingAccount checkingAccount;
         for(String line : fileData) {
             checkingAccount = parse(line);
-                    if(checkingAccount == null)
-                        return null;
 
+            if(checkingAccount != null)
             if (accountId == checkingAccount.getAccountId())
                 return checkingAccount;
         }
@@ -74,9 +73,7 @@ import java.util.ArrayList;
         for(String line : fileData) {
             checkingAccount = parse(line);
             //may be return null
-            if(checkingAccount == null)
-                return null;
-
+            if(checkingAccount != null)
             if (accountId == checkingAccount.getAccountId() && password.equals(checkingAccount.getPassword()))
                 return checkingAccount;
         }
