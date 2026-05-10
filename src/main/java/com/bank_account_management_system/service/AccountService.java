@@ -97,10 +97,29 @@ public class AccountService {
 
     public static void applyMonthlyUpdates() {
         ArrayList<BankAccount> accounts = loadAccounts();
+        double amount = 0;
+        TransactionType type ;
 
-        for (BankAccount BA : accounts) {
+        for (BankAccount account : accounts) {
+            if (account instanceof CheckingAccount) {
+                amount = -1*((CheckingAccount) account).getFee();
+                type =TransactionType.FEES;
+            }
 
-            BA.applyMonthlyUpdate();
+            else if (account instanceof SavingsAccount) {
+                amount = ((SavingsAccount) account).getInterestRate() * amount;
+                type =TransactionType.INTEREST;
+            }
+
+            // will be loanAccount
+            else {
+                amount = -1*((LoanAccount) account).getLoanAmount();
+                type = TransactionType.LOAN_PAYMENT;
+            }
+
+            TransactionRepository.saveTransaction(new Transaction(account.getAccountId(), TransactionType.LOAN_PAYMENT
+                    ,Math.abs(amount), account.getBalance(), account.getBalance() + amount));
+            account.applyMonthlyUpdate();
 
         }
     }
