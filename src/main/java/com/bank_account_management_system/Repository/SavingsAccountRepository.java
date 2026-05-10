@@ -104,10 +104,7 @@ public class SavingsAccountRepository {
         for(SavingsAccount currentSavingsAccount : savingsAccounts) {
             //update data
             if(currentSavingsAccount.getAccountId() == savingsAccount.getAccountId()) {
-                currentSavingsAccount.setPassword(savingsAccount.getPassword());
-                currentSavingsAccount.setHolderName(savingsAccount.getHolderName());
-                currentSavingsAccount.setInterestRate(savingsAccount.getInterestRate());
-
+               currentSavingsAccount =  savingsAccount;
                 result = true;
 
             }

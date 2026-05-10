@@ -108,10 +108,7 @@ import java.util.ArrayList;
          for(CheckingAccount currentCheckingAccount : checkingAccounts) {
              //update data
              if(currentCheckingAccount.getAccountId() == checkingAccount.getAccountId()) {
-                 currentCheckingAccount.setPassword(checkingAccount.getPassword());
-                 currentCheckingAccount.setHolderName(checkingAccount.getHolderName());
-                 currentCheckingAccount.setOverdraftLimit(checkingAccount.getOverdraftLimit());
-
+                 currentCheckingAccount =  checkingAccount;
                  result = true;
 
              }

@@ -108,12 +108,7 @@ public class CarLoanRepository {
         for(CarLoan currentCarLoanAccount : carLoans) {
             //update data
             if(currentCarLoanAccount.getAccountId() == carLoan.getAccountId()) {
-                currentCarLoanAccount.setPassword(carLoan.getPassword());
-                currentCarLoanAccount.setHolderName(carLoan.getHolderName());
-                currentCarLoanAccount.setLoanAmount(carLoan.getLoanAmount());
-                currentCarLoanAccount.setRemainingAmount(carLoan.getRemainingAmount());
-                currentCarLoanAccount.setCarModel(carLoan.getCarModel());
-
+                currentCarLoanAccount = carLoan;
                 result = true;
 
             }

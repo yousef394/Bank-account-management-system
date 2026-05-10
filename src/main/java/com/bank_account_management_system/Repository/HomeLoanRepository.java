@@ -108,12 +108,7 @@ public class HomeLoanRepository {
         for(HomeLoan currentHomeLoanAccount : homeLoans) {
             //update data
             if(currentHomeLoanAccount.getAccountId() == homeLoan.getAccountId()) {
-                currentHomeLoanAccount.setPassword(homeLoan.getPassword());
-                currentHomeLoanAccount.setHolderName(homeLoan.getHolderName());
-                currentHomeLoanAccount.setLoanAmount(homeLoan.getLoanAmount());
-                currentHomeLoanAccount.setRemainingAmount(homeLoan.getRemainingAmount());
-                currentHomeLoanAccount.setPropertyAddress(homeLoan.getPropertyAddress());
-
+                currentHomeLoanAccount = homeLoan;
                 result = true;
 
             }
