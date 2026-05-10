@@ -125,47 +125,29 @@ public class AccountService {
     }
 
     static public boolean deposit(int id, Double amount, accountType type) {
-        switch (type) {
-            case CHECKING:
-                CheckingAccount CA = CheckingAccountRepository.findById(id);
-            TransactionRepository.saveTransaction(new Transaction( CA.getAccountId(),TransactionType.DEPOSIT,
-                    amount,CA.getBalance(),CA.getBalance()+amount));
-                CA.deposit(amount);
-                return save(CA);
-            case SAVINGS:
-                SavingsAccount SA = SavingsAccountRepository.findById(id);
-                TransactionRepository.saveTransaction(new Transaction( SA.getAccountId(),TransactionType.DEPOSIT,
-                        amount,SA.getBalance(),SA.getBalance()+amount));
-                SA.deposit(amount);
-                return save(SA);
-            case CARLOAN:
-                CarLoan cAR = CarLoanRepository.findById(id);
-                TransactionRepository.saveTransaction(new Transaction( cAR.getAccountId(),TransactionType.DEPOSIT,
-                        amount,cAR.getBalance(),cAR.getBalance()+amount));
-                cAR.deposit(amount);
-                return save(cAR);
-            case HOMELOAN:
-                HomeLoan hL = HomeLoanRepository.findById(id);
-                TransactionRepository.saveTransaction(new Transaction( hL.getAccountId(),TransactionType.DEPOSIT,
-                        amount,hL.getBalance(),hL.getBalance()+amount));
-                hL.deposit(amount);
-                return save(hL);
+        BankAccount account = find(id, type);
 
-        }
-        return false;
+        if (account == null )
+            return false;
+
+        TransactionRepository.saveTransaction(new Transaction( account.getAccountId(), TransactionType.DEPOSIT
+                ,amount, account.getBalance(), account.getBalance() + amount) );
+
+        return  account.deposit(amount) && save(account);
+
     }
 
     static public boolean withdrawFromCheckingAccount(int id, Double amount) {
-        CheckingAccount checkingAccount = CheckingAccountRepository.findById(id);
+       BankAccount account = find(id, accountType.CHECKING);
 
-        if(checkingAccount == null)
+        if(account == null)
             return false;
 
-        TransactionRepository.saveTransaction(new Transaction( checkingAccount.getAccountId(),TransactionType.WITHDRAW,
-                amount,checkingAccount.getBalance(),checkingAccount.getBalance()-amount));
+        TransactionRepository.saveTransaction(new Transaction( account.getAccountId(),TransactionType.WITHDRAW,
+                amount,account.getBalance(),account.getBalance()-amount));
 
-        checkingAccount.withdraw(amount);
-        return save(checkingAccount);
+
+        return  account.withdraw(amount) && save(account);
     }
 
     static public boolean Transfer(int id1 ,int id2,accountType type, double amount ) {
