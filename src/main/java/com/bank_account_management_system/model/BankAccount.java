@@ -86,7 +86,7 @@ public abstract class BankAccount implements Printable, Auditable {
     }
 
     public boolean transfer(BankAccount target, double amount) {
-        if (target == null) return false;
+        if (target == null || target.getAccountId() == this.accountId) return false;
 
         if (this.withdraw(amount)) {
             target.deposit(amount);
