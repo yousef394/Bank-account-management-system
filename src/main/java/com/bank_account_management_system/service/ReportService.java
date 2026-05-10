@@ -1,6 +1,8 @@
 package com.bank_account_management_system.service;
 
+import com.bank_account_management_system.Repository.TransactionRepository;
 import com.bank_account_management_system.app.MainApplication;
+import com.bank_account_management_system.model.Transaction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ReportService{
     static public void changeScene(String toPage, ActionEvent event) throws IOException {
@@ -92,5 +95,12 @@ public class ReportService{
         reportArea.setText("Distribution Generated.");
     }
 
+    public static ArrayList<Transaction> generateAccountReport(int id)  {
+        return TransactionRepository.accountTransactions(id);
+    }
+
+    public static ArrayList<Transaction> generateTransactionReport() {
+        return TransactionRepository.allTransactions();
+    }
 
 }
