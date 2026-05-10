@@ -67,19 +67,6 @@ public class CarLoanRepository {
         return null;
     }
 
-    public static CarLoan findByIdAndPassword(int accountId, String password) {
-        ArrayList<String>fileData =  BankAccountRepository.loadDataWithoutSplit(fileName);
-        CarLoan carLoan;
-        for(String line : fileData) {
-            carLoan = parse(line);
-            //may be return null
-            if(carLoan != null)
-                if (accountId == carLoan.getAccountId() && password.equals(carLoan.getPassword()))
-                    return carLoan;
-        }
-        return null;
-    }
-
     public static boolean delete(int accountId) {
         boolean result = false;
         ArrayList<CarLoan> carLoans = getAllAccounts();

@@ -67,18 +67,6 @@ public class HomeLoanRepository {
         return null;
     }
 
-    public static HomeLoan findByIdAndPassword(int accountId, String password) {
-        ArrayList<String>fileData =  BankAccountRepository.loadDataWithoutSplit(fileName);
-        HomeLoan homeLoan;
-        for(String line : fileData) {
-            homeLoan = parse(line);
-            //may be return null
-            if(homeLoan != null)
-                if (accountId == homeLoan.getAccountId() && password.equals(homeLoan.getPassword()))
-                    return homeLoan;
-        }
-        return null;
-    }
 
     public static boolean delete(int accountId) {
         boolean result = false;

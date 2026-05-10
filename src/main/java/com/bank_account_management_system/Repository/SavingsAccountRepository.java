@@ -62,20 +62,7 @@ public class SavingsAccountRepository {
         }
         return null;
     }
-
-    public static SavingsAccount findByIdAndPassword(int accountId, String password) {
-        ArrayList<String>fileData =  BankAccountRepository.loadDataWithoutSplit(fileName);
-        SavingsAccount savingsAccount;
-        for(String line : fileData) {
-            savingsAccount = parse(line);
-            //may be return null
-            if(savingsAccount != null)
-            if (accountId == savingsAccount.getAccountId() && password.equals(savingsAccount.getPassword()))
-                return savingsAccount;
-        }
-        return null;
-    }
-
+    
     public static boolean delete(int accountId) {
         boolean result = false;
         ArrayList<SavingsAccount> savingsAccounts = getAllAccounts();

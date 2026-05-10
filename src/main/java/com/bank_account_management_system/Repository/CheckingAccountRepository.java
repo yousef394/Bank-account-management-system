@@ -67,19 +67,6 @@ import java.util.ArrayList;
         return null;
     }
 
-    public static CheckingAccount findByIdAndPassword(int accountId, String password) {
-        ArrayList<String>fileData =  BankAccountRepository.loadDataWithoutSplit(fileName);
-        CheckingAccount checkingAccount;
-        for(String line : fileData) {
-            checkingAccount = parse(line);
-            //may be return null
-            if(checkingAccount != null)
-            if (accountId == checkingAccount.getAccountId() && password.equals(checkingAccount.getPassword()))
-                return checkingAccount;
-        }
-        return null;
-    }
-
     public static boolean delete(int accountId) {
         boolean result = false;
         ArrayList<CheckingAccount> checkingAccounts = getAllAccounts();
