@@ -1,10 +1,8 @@
 package com.bank_account_management_system.model;
 
-import com.bank_account_management_system.Repository.HomeLoanRepository;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 public class HomeLoan extends LoanAccount {
     private String propertyAddress;

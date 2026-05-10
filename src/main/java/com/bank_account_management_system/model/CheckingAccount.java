@@ -1,11 +1,7 @@
 package com.bank_account_management_system.model;
 
-import com.bank_account_management_system.Repository.CheckingAccountRepository;
-import com.bank_account_management_system.Repository.TransactionRepository;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class CheckingAccount extends BankAccount {
     private double overdraftLimit;

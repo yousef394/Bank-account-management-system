@@ -1,7 +1,7 @@
 package com.bank_account_management_system.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 
 public class Transaction implements Printable {
 

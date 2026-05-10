@@ -1,10 +1,8 @@
 package com.bank_account_management_system.model;
 
-import com.bank_account_management_system.Repository.CarLoanRepository;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 public class CarLoan extends LoanAccount {
     private String CarModel;
