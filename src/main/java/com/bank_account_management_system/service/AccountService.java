@@ -143,7 +143,7 @@ public class AccountService {
             return false;
 
         TransactionRepository.saveTransaction(new Transaction( checkingAccount.getAccountId(),TransactionType.WITHDRAW,
-                amount,checkingAccount.getBalance(),checkingAccount.getBalance()+amount));
+                amount,checkingAccount.getBalance(),checkingAccount.getBalance()-amount));
 
         checkingAccount.withdraw(amount);
         return save(checkingAccount);
