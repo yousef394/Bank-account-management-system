@@ -110,7 +110,6 @@ public class CarLoanRepository {
             if(currentCarLoanAccount.getAccountId() == carLoan.getAccountId()) {
                 currentCarLoanAccount.setPassword(carLoan.getPassword());
                 currentCarLoanAccount.setHolderName(carLoan.getHolderName());
-                currentCarLoanAccount.setBalance(carLoan.getBalance());
                 currentCarLoanAccount.setLoanAmount(carLoan.getLoanAmount());
                 currentCarLoanAccount.setRemainingAmount(carLoan.getRemainingAmount());
                 currentCarLoanAccount.setCarModel(carLoan.getCarModel());

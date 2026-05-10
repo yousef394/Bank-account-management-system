@@ -65,7 +65,7 @@ public abstract class BankAccount implements Printable, Auditable {
         this.password = password;
     }
 
-    public void setBalance(double balance) {
+    protected void setBalance(double balance) {
         this.balance = Math.max(balance, 0);
     }
 

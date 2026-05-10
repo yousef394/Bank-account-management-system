@@ -110,7 +110,6 @@ import java.util.ArrayList;
              if(currentCheckingAccount.getAccountId() == checkingAccount.getAccountId()) {
                  currentCheckingAccount.setPassword(checkingAccount.getPassword());
                  currentCheckingAccount.setHolderName(checkingAccount.getHolderName());
-                 currentCheckingAccount.setBalance(checkingAccount.getBalance());
                  currentCheckingAccount.setOverdraftLimit(checkingAccount.getOverdraftLimit());
 
                  result = true;

@@ -106,7 +106,6 @@ public class SavingsAccountRepository {
             if(currentSavingsAccount.getAccountId() == savingsAccount.getAccountId()) {
                 currentSavingsAccount.setPassword(savingsAccount.getPassword());
                 currentSavingsAccount.setHolderName(savingsAccount.getHolderName());
-                currentSavingsAccount.setBalance(savingsAccount.getBalance());
                 currentSavingsAccount.setInterestRate(savingsAccount.getInterestRate());
 
                 result = true;
