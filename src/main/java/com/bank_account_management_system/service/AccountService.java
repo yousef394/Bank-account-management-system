@@ -18,13 +18,16 @@ public class AccountService {
 
     public static boolean createAccount(BankAccount account) {
         if (account instanceof CheckingAccount)
-            CheckingAccountRepository.add((CheckingAccount) account);
+         return  CheckingAccountRepository.add((CheckingAccount) account);
+
         else if(account instanceof SavingsAccount)
-            SavingsAccountRepository.add((SavingsAccount) account);
+         return  SavingsAccountRepository.add((SavingsAccount) account);
+
         else if (account instanceof CarLoan)
-            CarLoanRepository.add((CarLoan) account);
+         return CarLoanRepository.add((CarLoan) account);
+
         else if (account instanceof HomeLoan)
-            HomeLoanRepository.add((HomeLoan) account);
+         return  HomeLoanRepository.add((HomeLoan) account);
 
     return false;
 
@@ -60,13 +63,16 @@ public class AccountService {
 
     public static boolean save(BankAccount account) {
         if (account instanceof CheckingAccount)
-            CheckingAccountRepository.update((CheckingAccount) account);
+          return   CheckingAccountRepository.update((CheckingAccount) account);
+
         else if(account instanceof SavingsAccount)
-            SavingsAccountRepository.update((SavingsAccount) account);
+          return SavingsAccountRepository.update((SavingsAccount) account);
+
         else if (account instanceof CarLoan)
-            CarLoanRepository.update((CarLoan) account);
+          return  CarLoanRepository.update((CarLoan) account);
+
         else if (account instanceof HomeLoan)
-            HomeLoanRepository.update((HomeLoan) account);
+          return  HomeLoanRepository.update((HomeLoan) account);
 
         return false;
     }
@@ -99,7 +105,7 @@ public class AccountService {
         }
     }
 
-    static public boolean deposite(int id, Double amount, accountType type) {
+    static public boolean deposit(int id, Double amount, accountType type) {
         switch (type) {
             case CHECKING:
                 CheckingAccount CA = CheckingAccountRepository.findById(id);
@@ -145,7 +151,7 @@ public class AccountService {
 
     static public boolean Transfer(int id1 ,int id2,accountType type, double amount ) {
        return withdrawFromCheckingAccount(id1,amount)
-                    && deposite(id2,amount,type);
+                    && deposit(id2,amount,type);
     }
 
 }
