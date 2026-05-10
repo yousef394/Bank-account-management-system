@@ -17,6 +17,8 @@ public class AccountService {
     }
 
     public static boolean createAccount(BankAccount account) {
+        if (account == null) { return false; }
+
         if (account instanceof CheckingAccount)
          return  CheckingAccountRepository.add((CheckingAccount) account);
 
@@ -62,6 +64,8 @@ public class AccountService {
     }
 
     public static boolean save(BankAccount account) {
+        if  (account == null) { return false; }
+
         if (account instanceof CheckingAccount)
           return   CheckingAccountRepository.update((CheckingAccount) account);
 
@@ -80,17 +84,13 @@ public class AccountService {
     public static ArrayList<BankAccount> loadAccounts() {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
-        for (CheckingAccount CA : CheckingAccountRepository.getAllAccounts())
-            accounts.add(CA);
+        accounts.addAll(CheckingAccountRepository.getAllAccounts());
 
-        for (SavingsAccount SA : SavingsAccountRepository.getAllAccounts())
-            accounts.add(SA);
+        accounts.addAll(SavingsAccountRepository.getAllAccounts());
 
-        for (CarLoan CL : CarLoanRepository.getAllAccounts())
-            accounts.add(CL);
+        accounts.addAll(CarLoanRepository.getAllAccounts());
 
-        for (HomeLoan HL : HomeLoanRepository.getAllAccounts())
-            accounts.add(HL);
+        accounts.addAll(HomeLoanRepository.getAllAccounts());
 
         return accounts;
     }
@@ -151,8 +151,21 @@ public class AccountService {
     }
 
     static public boolean Transfer(int id1 , int id2, AccountType type, double amount ) {
-       return withdrawFromCheckingAccount(id1,amount)
-                    && deposit(id2,amount,type);
+            BankAccount account1 = find(id1, AccountType.CHECKING);
+            BankAccount account2 = find(id2, type);
+
+            if (account1 == null || account2 == null )
+                return false;
+
+        TransactionRepository.saveTransaction(new Transaction( account1.getAccountId(),TransactionType.TRANSFER,
+                amount,account1.getBalance(),account1.getBalance()-amount));
+
+        TransactionRepository.saveTransaction(new Transaction( account2.getAccountId(),TransactionType.TRANSFER,
+                amount,account2.getBalance(),account2.getBalance()+amount));
+
+
+
+        return account1.transfer(account2, amount) &&  save(account1) && save(account2) ;
     }
 
 }
