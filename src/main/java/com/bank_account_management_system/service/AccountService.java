@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class AccountService {
 
-    public static enum accountType {
+    public static enum AccountType {
         CHECKING,
         SAVINGS,
         CARLOAN,
@@ -33,7 +33,7 @@ public class AccountService {
 
     }
 
-    public static boolean delete(int id, accountType type) {
+    public static boolean delete(int id, AccountType type) {
         switch (type) {
             case CHECKING:
                 return CheckingAccountRepository.delete(id);
@@ -47,7 +47,7 @@ public class AccountService {
         return false;
     }
 
-    public static BankAccount find(int id, accountType type) {
+    public static BankAccount find(int id, AccountType type) {
         switch (type) {
             case CHECKING:
                 return CheckingAccountRepository.findById(id);
@@ -124,7 +124,7 @@ public class AccountService {
         }
     }
 
-    static public boolean deposit(int id, Double amount, accountType type) {
+    static public boolean deposit(int id, Double amount, AccountType type) {
         BankAccount account = find(id, type);
 
         if (account == null )
@@ -138,7 +138,7 @@ public class AccountService {
     }
 
     static public boolean withdrawFromCheckingAccount(int id, Double amount) {
-       BankAccount account = find(id, accountType.CHECKING);
+       BankAccount account = find(id, AccountType.CHECKING);
 
         if(account == null)
             return false;
@@ -150,7 +150,7 @@ public class AccountService {
         return  account.withdraw(amount) && save(account);
     }
 
-    static public boolean Transfer(int id1 ,int id2,accountType type, double amount ) {
+    static public boolean Transfer(int id1 , int id2, AccountType type, double amount ) {
        return withdrawFromCheckingAccount(id1,amount)
                     && deposit(id2,amount,type);
     }
