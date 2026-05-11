@@ -64,10 +64,10 @@ public abstract class LoanAccount extends BankAccount {
 
     //=========Override methods========
     @Override
-    public void applyMonthlyUpdate(){
+    public boolean  applyMonthlyUpdate(){
 
         // we assume that loan payment in year
-        payInstallment(loanAmount/12);
+       return payInstallment(loanAmount/12);
     }
 
     @Override

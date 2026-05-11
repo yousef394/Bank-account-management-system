@@ -69,23 +69,26 @@ public class CheckingAccount extends BankAccount {
 
 
     @Override
-    public void applyMonthlyUpdate() {
+    public boolean applyMonthlyUpdate() {
           if (fee>0)
-
           {
               if( getBalance()>=fee ) {
                   setBalance(getBalance() - fee);
                     fee = 0;
+                    return true;
               }
 
-              else
-                  fee*=1.25;
-
+              else {
+                  fee *= 1.25;
+                  return false;
+              }
 
           }
 
-          else
-              fee=0;
+          else {
+              fee = 0;
+          return false;
+          }
     }
 
     @Override

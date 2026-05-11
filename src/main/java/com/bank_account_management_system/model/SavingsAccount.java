@@ -46,10 +46,12 @@ public class SavingsAccount extends BankAccount{
 
 
     //=========== Core Logic ==========
-    public void applyInterest() {
+    public boolean applyInterest() {
+        if (getBalance() == 0) return false;
+
         double amount = getBalance()*interestRate;
         setBalance((getBalance()*interestRate)+getBalance());
-
+        return true;
     }
 
     //Saving Account does not support withdraw
@@ -61,9 +63,8 @@ public class SavingsAccount extends BankAccount{
 
     //=========== Override methods ============
     @Override
-    public void applyMonthlyUpdate()
-    {
-        applyInterest();
+    public boolean applyMonthlyUpdate() {
+       return applyInterest();
 
     }
 

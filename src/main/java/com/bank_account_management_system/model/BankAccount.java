@@ -120,6 +120,6 @@ public abstract class BankAccount implements Printable, Auditable {
     }
     // ================= Abstract =================
 
-    public abstract void applyMonthlyUpdate();
+    public abstract boolean applyMonthlyUpdate();
 
 }

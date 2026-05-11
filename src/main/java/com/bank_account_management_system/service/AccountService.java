@@ -84,13 +84,13 @@ public class AccountService {
     public static ArrayList<BankAccount> loadAccounts() {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
-        accounts.addAll(new CheckingAccountRepository().getAll());
+        accounts.addAll(checkingRepo.getAll());
 
-        accounts.addAll(new SavingsAccountRepository().getAll());
+        accounts.addAll(checkingRepo.getAll());
 
-        accounts.addAll(new CarLoanRepository().getAll());
+        accounts.addAll(carLoanRepo.getAll());
 
-        accounts.addAll(new HomeLoanRepository().getAll());
+        accounts.addAll(homeLoanRepo.getAll());
 
         return accounts;
     }
@@ -113,19 +113,22 @@ public class AccountService {
 
             // will be loanAccount
             else {
-                amount = -1*((LoanAccount) account).getLoanAmount();
+                amount = -1*((LoanAccount) account).getLoanAmount()/12;
                 type = TransactionType.LOAN_PAYMENT;
             }
 
             double balance = account.getBalance();
 
-            account.applyMonthlyUpdate();
+           if(account.applyMonthlyUpdate()) {
 
-           saveAccount(account) ;
-
-            transactionRepo.add(new Transaction(account.getAccountId(),type
-                    ,Math.abs(amount), balance, balance + amount));
+               if (saveAccount(account)) {
+                   transactionRepo.add(new Transaction(account.getAccountId(), type
+                           , Math.abs(amount), balance, balance + amount));
+               }
+           }
         }
+
+
     }
 
     static public boolean deposit(int id, Double amount, AccountType type) {
