@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public abstract class LoanAccount extends BankAccount {
 
-    private double loanAmount;
+    private final double loanAmount;
     private double remainingAmount;
 
     //=========constructors==============
@@ -35,9 +35,6 @@ public abstract class LoanAccount extends BankAccount {
     }
 
     //========= Setters =========
-    public void setLoanAmount(double loanAmount) {
-        this.loanAmount = loanAmount;
-    }
     public void setRemainingAmount(double remainingAmount) {
         this.remainingAmount = remainingAmount;
     }
@@ -59,7 +56,7 @@ public abstract class LoanAccount extends BankAccount {
          remainingAmount -= amount;
         return true;
     }
-    
+
     @Override
     public boolean withdraw(double amount) {
         return false;

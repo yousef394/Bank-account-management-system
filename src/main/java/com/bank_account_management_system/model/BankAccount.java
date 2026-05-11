@@ -8,11 +8,11 @@ import java.util.List;
 
 public abstract class BankAccount implements Printable, Auditable {
 
-    private int accountId;
+    private final int accountId;
     private String holderName;
     private String password;
     private double balance;
-    private LocalDateTime dateCreated;
+    private final LocalDateTime dateCreated;
 
     // Constructor for new accounts
     public BankAccount(int accountId, String password, String holderName, double balance) {
