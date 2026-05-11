@@ -59,7 +59,7 @@ import java.util.ArrayList;
           return appendLine(format(object));
       }
 
-     public ArrayList<T> getAllAccounts(){
+     public ArrayList<T> getAll(){
 
           ArrayList<T> Accounts = new ArrayList<>();
 
@@ -88,7 +88,7 @@ import java.util.ArrayList;
 
      public T findById(int accountId) {
 
-          for( T account : getAllAccounts() ) {
+          for( T account : getAll() ) {
 
               if (accountId ==getId(account))
                   return account;
@@ -101,7 +101,7 @@ import java.util.ArrayList;
      public boolean delete(int accountId) {
           boolean result = false;
 
-          ArrayList<T> accounts = getAllAccounts();
+          ArrayList<T> accounts = getAll();
 
           //to reset file to can fill file again
           if(resetFile()) {
@@ -124,7 +124,7 @@ import java.util.ArrayList;
 
           boolean result = false;
 
-          ArrayList<T> accounts = getAllAccounts();
+          ArrayList<T> accounts = getAll();
 
           //to clear file
           if(resetFile())

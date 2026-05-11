@@ -9,12 +9,14 @@ import java.util.ArrayList;
 public class ReportService
 {
 
+    private static final TransactionRepository TransactionRepo = new TransactionRepository();
+
     public static ArrayList<Transaction> generateAccountReport(int id)  {
-        return TransactionRepository.accountTransactions(id);
+        return TransactionRepo.getTransactionsByAccountId(id);
     }
 
     public static ArrayList<Transaction> generateTransactionReport() {
-        return TransactionRepository.allTransactions();
+        return TransactionRepo.getAll();
     }
 
 }

@@ -108,8 +108,11 @@ public abstract class BankAccount implements Printable, Auditable {
 
     @Override
     public List<String> getAuditLog()  {
+
        ArrayList <String> AuditLog =  new ArrayList<>();
-        for(Transaction T : TransactionRepository.accountTransactions(getAccountId()) )
+       TransactionRepository transactionRepo = new TransactionRepository();
+
+        for(Transaction T : (transactionRepo.getTransactionsByAccountId(this.accountId)) )
             AuditLog.add(T.printDetails());
 
         AuditLog.add(printDetails());

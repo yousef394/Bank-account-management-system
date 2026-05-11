@@ -14,6 +14,7 @@ public class AccountService {
     private static final SavingsAccountRepository savingsRepo = new SavingsAccountRepository();
     private static final CarLoanRepository carLoanRepo = new CarLoanRepository();
     private static final HomeLoanRepository homeLoanRepo = new HomeLoanRepository();
+    private static final TransactionRepository transactionRepo = new TransactionRepository();
 
     public static boolean createAccount(BankAccount account) {
         if (account == null) { return false; }
@@ -83,13 +84,13 @@ public class AccountService {
     public static ArrayList<BankAccount> loadAccounts() {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
-        accounts.addAll(new CheckingAccountRepository().getAllAccounts());
+        accounts.addAll(new CheckingAccountRepository().getAll());
 
-        accounts.addAll(new SavingsAccountRepository().getAllAccounts());
+        accounts.addAll(new SavingsAccountRepository().getAll());
 
-        accounts.addAll(new CarLoanRepository().getAllAccounts());
+        accounts.addAll(new CarLoanRepository().getAll());
 
-        accounts.addAll(new HomeLoanRepository().getAllAccounts());
+        accounts.addAll(new HomeLoanRepository().getAll());
 
         return accounts;
     }
@@ -122,7 +123,7 @@ public class AccountService {
 
            saveAccount(account) ;
 
-            TransactionRepository.saveTransaction(new Transaction(account.getAccountId(),type
+            transactionRepo.add(new Transaction(account.getAccountId(),type
                     ,Math.abs(amount), balance, balance + amount));
         }
     }
@@ -136,7 +137,8 @@ public class AccountService {
         double balance = account.getBalance();
 
 
-        return  account.deposit(amount) && saveAccount(account) && TransactionRepository.saveTransaction(new Transaction( account.getAccountId(), TransactionType.DEPOSIT
+        return  account.deposit(amount) && saveAccount(account)
+                && transactionRepo.add(new Transaction( account.getAccountId(), TransactionType.DEPOSIT
                 ,amount, balance, balance + amount) );
 
     }
@@ -150,7 +152,8 @@ public class AccountService {
 
         double balance = account.getBalance();
 
-        return  account.withdraw(amount) && saveAccount(account) && TransactionRepository.saveTransaction(new Transaction( account.getAccountId(),TransactionType.WITHDRAW,
+        return  account.withdraw(amount) && saveAccount(account)
+                && transactionRepo.add(new Transaction( account.getAccountId(),TransactionType.WITHDRAW,
                 amount,balance,balance-amount));
     }
 
@@ -169,10 +172,10 @@ public class AccountService {
 
         return account1.transfer(account2, amount) &&  saveAccount(account1) && saveAccount(account2)
                 &&
-                  TransactionRepository.saveTransaction(new Transaction( account1.getAccountId(),TransactionType.TRANSFER,
+                transactionRepo.add(new Transaction( account1.getAccountId(),TransactionType.TRANSFER,
                 amount,balance1,balance1-amount))
                 &&
-        TransactionRepository.saveTransaction(new Transaction( account2.getAccountId(),TransactionType.TRANSFER,
+                transactionRepo.add(new Transaction( account2.getAccountId(),TransactionType.TRANSFER,
                 amount,balance2,balance2+amount));
 
     }
