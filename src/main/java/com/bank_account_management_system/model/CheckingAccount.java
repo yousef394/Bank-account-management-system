@@ -4,69 +4,69 @@ package com.bank_account_management_system.model;
 import java.time.LocalDateTime;
 
 public class CheckingAccount extends BankAccount {
+
     private double overdraftLimit;
     private double fee = 0;
 
-    // constructor for new account
-    public CheckingAccount(int id ,String Password,String holderName,
+
+    //=========constructors=================
+    //for new account
+    public CheckingAccount(int id ,String password,String holderName,
                            double balance, double overdraft ) {
-        super(id,Password,holderName,balance);
+        super(id,password,holderName,balance);
         this.overdraftLimit = overdraft;
-        this.fee = fee;
-    }
-   // constructor for existed account
-    public CheckingAccount(int id , String Password, LocalDateTime dateCreated, String holderName,
-                           double balance, double overdraft ) {
-        super(id,Password,holderName,balance,dateCreated);
-        this.overdraftLimit = overdraft;
-        this.fee = fee;
 
     }
 
-    public CheckingAccount(int id ,String Password, LocalDateTime dateCreated,String holderName,
+   // for existed account
+    public CheckingAccount(int id ,String password, LocalDateTime dateCreated,String holderName,
                            double balance, double overdraft, double fee ) {
-        super(id,Password,holderName,balance);
+        super(id,password,holderName,balance,dateCreated);
         this.overdraftLimit = overdraft;
         this.fee = fee;
     }
 
 
-
+    //========getter===========
     public double getOverdraftLimit() {
         return overdraftLimit;
     }
-
-    public void setOverdraftLimit(double overdraft) {
-        this.overdraftLimit = overdraft;
-    }
-
     public double getFee() {
         return fee;
+    }
+
+    //=======setter==========
+    public void setOverdraftLimit(double overdraft) {
+        this.overdraftLimit = overdraft;
     }
     public void setFee(double fee) {
         this.fee = fee;
     }
 
 
+
+    //========override methods=========
     @Override
     public boolean withdraw(double amount)  {
-        if(amount>0) {
-            if (getBalance() >= amount) {
-                return super.withdraw(amount);
-            }
-            else if (overdraftLimit + getBalance() >= amount) {
 
-                fee = (amount - getBalance()) * 0.25;
-                super.withdraw(amount);
+        if (amount <= 0) return false;
 
-                return true;
-            } else
-                return false;
+
+         if (getBalance() >= amount)
+             return super.withdraw(amount);
+
+         else if (overdraftLimit + getBalance() >= amount) {
+
+             //we make fees and take it later with monthly update
+             fee = (amount - getBalance()) * 0.25;
+             setBalance(getBalance() - amount);
+             return true;
+         }
+
+          return false;
 
         }
-        else
-            return false;
-        }
+
 
     @Override
     public void applyMonthlyUpdate() {
@@ -79,7 +79,7 @@ public class CheckingAccount extends BankAccount {
               }
 
               else
-                  fee*=1.5;
+                  fee*=1.25;
 
 
           }
@@ -91,7 +91,7 @@ public class CheckingAccount extends BankAccount {
     @Override
     public String printDetails() {
         return  super.printDetails()+ " | OverdraftLimit: "+overdraftLimit
-                + " Fee: "+fee;
+                + " | Fee: "+fee;
 
     }
 
