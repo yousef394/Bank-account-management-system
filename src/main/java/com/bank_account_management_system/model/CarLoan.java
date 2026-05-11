@@ -7,13 +7,16 @@ import java.time.LocalDateTime;
 public class CarLoan extends LoanAccount {
     private String CarModel;
 
-    public CarLoan(int accountId,String password, String holderName,
+    //========= Constructors ==========
+    //for new loan
+    public CarLoan(String password, String holderName,
                    double balance,double loanAmount, double remainingAmount ,String CarModel) {
-        super(accountId,password, holderName, balance, loanAmount, remainingAmount);
+        super(password, holderName, balance, loanAmount, remainingAmount);
         this.CarModel = CarModel;
 
     }
 
+    //for load loan
     public CarLoan(int accountId, String password, LocalDateTime dateCreated, String holderName,
                    double balance, double loanAmount, double remainingAmount , String CarModel) {
         super(accountId,password,dateCreated, holderName, balance, loanAmount, remainingAmount);
@@ -21,6 +24,7 @@ public class CarLoan extends LoanAccount {
 
     }
 
+    //=========== getter & setter =======
     public String getCarModel() {
         return CarModel;
     }
@@ -28,7 +32,7 @@ public class CarLoan extends LoanAccount {
         this.CarModel = CarModel;
     }
 
-
+    //======== Override method =======
     @Override
     public String printDetails() {
         return super.printDetails()+" CarModel: "+CarModel;

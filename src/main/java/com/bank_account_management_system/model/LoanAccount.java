@@ -10,9 +10,9 @@ public abstract class LoanAccount extends BankAccount {
     //=========constructors==============
 
     //for new loan
-    public LoanAccount(int accountId,String password, String holderName,
+    public LoanAccount(String password, String holderName,
                        double balance,double loanAmount, double remainingAmount) {
-        super(accountId,password, holderName, balance);
+        super(password, holderName, balance);
         this.loanAmount = loanAmount;
         this.remainingAmount = remainingAmount;
     }

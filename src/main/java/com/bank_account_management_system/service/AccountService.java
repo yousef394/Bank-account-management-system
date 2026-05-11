@@ -35,32 +35,29 @@ public class AccountService {
 
     }
 
-    public static boolean delete(int id, AccountType type) {
-        switch (type) {
-            case CHECKING:
-                return checkingRepo.delete(id);
-            case SAVINGS:
-                return savingsRepo.delete(id);
-            case CARLOAN:
-                return carLoanRepo.delete(id);
-            case HOMELOAN:
-                return homeLoanRepo.delete(id);
-        }
-        return false;
+    public static boolean delete(int id) {
+
+        return checkingRepo.delete(id) || savingsRepo.delete(id) || carLoanRepo.delete(id) || homeLoanRepo.delete(id);
     }
 
-    public static BankAccount find(int id, AccountType type) {
-        switch (type) {
-            case CHECKING:
-                return checkingRepo.findById(id);
-            case SAVINGS:
-                return savingsRepo.findById(id);
-            case CARLOAN:
-                return carLoanRepo.findById(id);
-            case HOMELOAN:
-                return homeLoanRepo.findById(id);
-        }
-        return null;
+    public static BankAccount find(int id) {
+
+       BankAccount account; ;
+
+       if ((account = checkingRepo.findById(id) ) != null)
+          return account;
+
+       else if ((account = savingsRepo.findById(id) ) != null)
+           return account;
+
+       else if ((account = carLoanRepo.findById(id) ) != null)
+           return account;
+
+       else if ((account = homeLoanRepo.findById(id) ) != null)
+           return account;
+
+       else return null;
+
     }
 
     public static boolean saveAccount(BankAccount account) {
@@ -131,8 +128,8 @@ public class AccountService {
 
     }
 
-    static public boolean deposit(int id, Double amount, AccountType type) {
-        BankAccount account = find(id, type);
+    static public boolean deposit(int id, Double amount) {
+        BankAccount account = find(id);
 
         if (account == null )
             return false;
@@ -147,7 +144,7 @@ public class AccountService {
     }
 
     static public boolean withdrawFromCheckingAccount(int id, Double amount) {
-       BankAccount account = find(id, AccountType.CHECKING);
+       BankAccount account = find(id);
 
         if(account == null)
             return false;
@@ -160,9 +157,9 @@ public class AccountService {
                 amount,balance,balance-amount));
     }
 
-    static public boolean transfer(int id1 , int id2, AccountType type, double amount ) {
-            BankAccount account1 = find(id1, AccountType.CHECKING);
-            BankAccount account2 = find(id2, type);
+    static public boolean transfer(int idFrom , int idTo, double amount ) {
+            BankAccount account1 = find(idFrom);
+            BankAccount account2 = find(idTo);
 
             if (account1 == null || account2 == null )
                 return false;

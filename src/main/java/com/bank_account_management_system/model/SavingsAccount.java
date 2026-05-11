@@ -10,9 +10,9 @@ public class SavingsAccount extends BankAccount{
 
     //=========== Constructors ===============
     //for new account
-    public SavingsAccount(int id ,String password, String holderName, double balance, double interestRate)
-    {
-        super(id,password, holderName, balance);
+    public SavingsAccount(String password, String holderName, double balance, double interestRate){
+        super(password, holderName, balance);
+        if(interestRate>1){interestRate/=100; }
         this.interestRate = interestRate;
     }
     //for load
@@ -20,6 +20,7 @@ public class SavingsAccount extends BankAccount{
                           double balance, double interestRate)
     {
         super(id,password, holderName, balance,dateCreated);
+        if(interestRate>1){interestRate/=100; }
         this.interestRate = interestRate;
     }
 

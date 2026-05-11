@@ -1,5 +1,6 @@
 package com.bank_account_management_system.model;
 
+import com.bank_account_management_system.Repository.LastId;
 import com.bank_account_management_system.Repository.TransactionRepository;
 
 import java.time.LocalDateTime;
@@ -14,9 +15,20 @@ public abstract class BankAccount implements Printable, Auditable {
     private double balance;
     private final LocalDateTime dateCreated;
 
+    private int generateId(){
+        int lastId = LastId.getLastId();
+
+        LastId.addLastId(lastId+1);
+
+        return lastId+1;
+    }
+
     // Constructor for new accounts
-    public BankAccount(int accountId, String password, String holderName, double balance) {
-        this.accountId = accountId;
+    public BankAccount( String password, String holderName, double balance) {
+
+        //ID automatic increase and unique (primary Key)
+        this.accountId =generateId() ;
+
         this.password = password;
         this.holderName = holderName;
         this.balance = Math.max(balance, 0);

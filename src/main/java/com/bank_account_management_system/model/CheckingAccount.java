@@ -11,9 +11,8 @@ public class CheckingAccount extends BankAccount {
 
     //=========constructors=================
     //for new account
-    public CheckingAccount(int id ,String password,String holderName,
-                           double balance, double overdraft ) {
-        super(id,password,holderName,balance);
+    public CheckingAccount(String password,String holderName,double balance, double overdraft ) {
+        super(password,holderName,balance);
         this.overdraftLimit = overdraft;
 
     }
