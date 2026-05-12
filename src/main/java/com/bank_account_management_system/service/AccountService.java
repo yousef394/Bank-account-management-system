@@ -42,7 +42,7 @@ public class AccountService {
 
     public static BankAccount find(int id) {
 
-       BankAccount account; ;
+       BankAccount account;
 
        if ((account = checkingRepo.findById(id) ) != null)
           return account;
@@ -83,7 +83,7 @@ public class AccountService {
 
         accounts.addAll(checkingRepo.getAll());
 
-        accounts.addAll(checkingRepo.getAll());
+        accounts.addAll(savingsRepo.getAll());
 
         accounts.addAll(carLoanRepo.getAll());
 
@@ -131,7 +131,7 @@ public class AccountService {
     static public boolean deposit(int id, Double amount) {
         BankAccount account = find(id);
 
-        if (account == null )
+        if (account == null || amount == null || amount <= 0)
             return false;
 
         double balance = account.getBalance();
@@ -143,10 +143,10 @@ public class AccountService {
 
     }
 
-    static public boolean withdrawFromCheckingAccount(int id, Double amount) {
+    static public boolean withdraw(int id, Double amount) {
        BankAccount account = find(id);
 
-        if(account == null)
+        if (account == null || amount == null || amount <= 0)
             return false;
 
 
@@ -161,7 +161,7 @@ public class AccountService {
             BankAccount account1 = find(idFrom);
             BankAccount account2 = find(idTo);
 
-            if (account1 == null || account2 == null )
+            if (account1 == null || account2 == null || amount <= 0 )
                 return false;
 
             double balance1 = account1.getBalance();
