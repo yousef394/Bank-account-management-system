@@ -1,5 +1,6 @@
 package com.bank_account_management_system.model;
 
+import com.bank_account_management_system.Repository.LastId;
 import com.bank_account_management_system.Repository.TransactionRepository;
 
 import java.time.LocalDateTime;
@@ -8,15 +9,26 @@ import java.util.List;
 
 public abstract class BankAccount implements Printable, Auditable {
 
-    private int accountId;
+    private final int accountId;
     private String holderName;
     private String password;
     private double balance;
-    private LocalDateTime dateCreated;
+    private final LocalDateTime dateCreated;
+
+    private int generateId(){
+        int lastId = LastId.getLastId();
+
+        LastId.addLastId(lastId+1);
+
+        return lastId+1;
+    }
 
     // Constructor for new accounts
-    public BankAccount(int accountId, String password, String holderName, double balance) {
-        this.accountId = accountId;
+    public BankAccount( String password, String holderName, double balance) {
+
+        //ID automatic increase and unique (primary Key)
+        this.accountId =generateId() ;
+
         this.password = password;
         this.holderName = holderName;
         this.balance = Math.max(balance, 0);
@@ -108,8 +120,11 @@ public abstract class BankAccount implements Printable, Auditable {
 
     @Override
     public List<String> getAuditLog()  {
+
        ArrayList <String> AuditLog =  new ArrayList<>();
-        for(Transaction T : TransactionRepository.accountTransactions(getAccountId()) )
+       TransactionRepository transactionRepo = new TransactionRepository();
+
+        for(Transaction T : (transactionRepo.getTransactionsByAccountId(this.accountId)) )
             AuditLog.add(T.printDetails());
 
         AuditLog.add(printDetails());
@@ -117,6 +132,6 @@ public abstract class BankAccount implements Printable, Auditable {
     }
     // ================= Abstract =================
 
-    public abstract void applyMonthlyUpdate();
+    public abstract boolean applyMonthlyUpdate();
 
 }

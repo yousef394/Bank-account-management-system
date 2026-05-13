@@ -8,24 +8,27 @@ public class SavingsAccount extends BankAccount{
 
     private double interestRate;
 
+    //=========== Constructors ===============
     //for new account
-    public SavingsAccount(int id ,String password, String holderName, double balance, double interestRate)
-    {
-        super(id,password, holderName, balance);
-        setInterestRate(interestRate);
+    public SavingsAccount(String password, String holderName, double balance, double interestRate){
+        super(password, holderName, balance);
+        if(interestRate>1){interestRate/=100; }
+        this.interestRate = interestRate;
     }
     //for load
     public SavingsAccount(int id , String password, LocalDateTime dateCreated ,String holderName,
                           double balance, double interestRate)
     {
         super(id,password, holderName, balance,dateCreated);
-        setInterestRate(interestRate);
+        if(interestRate>1){interestRate/=100; }
+        this.interestRate = interestRate;
     }
 
+
+    // ====== setters and getters =========
     public double getInterestRate() {
         return interestRate;
     }
-
     public void setInterestRate(double interestRate) {
         if(interestRate > 0 ) {
             if(interestRate <1) {
@@ -42,24 +45,27 @@ public class SavingsAccount extends BankAccount{
 
     }
 
-    public void applyInterest()
-    {
+
+    //=========== Core Logic ==========
+    public boolean applyInterest() {
+        if (getBalance() == 0) return false;
+
         double amount = getBalance()*interestRate;
         setBalance((getBalance()*interestRate)+getBalance());
-
+        return true;
     }
 
-    //because it is saving account -->clint can't make withdraw
+    //Saving Account does not support withdraw
     @Override
     public boolean withdraw(double amount) {
        return false;
     }
 
 
+    //=========== Override methods ============
     @Override
-    public void applyMonthlyUpdate()
-    {
-        applyInterest();
+    public boolean applyMonthlyUpdate() {
+       return applyInterest();
 
     }
 
