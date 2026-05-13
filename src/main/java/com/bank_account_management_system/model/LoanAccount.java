@@ -10,13 +10,15 @@ public abstract class LoanAccount extends BankAccount {
     public LoanAccount(int accountId,String password, String holderName,
                        double balance,double loanAmount, double remainingAmount) {
         super(accountId,password, holderName, balance);
+        setLoanAmount(loanAmount);
+        setRemainingAmount(remainingAmount);
     }
 
     public LoanAccount(int accountId, String password, LocalDateTime dateCreated, String holderName,
                        double balance, double loanAmount, double remainingAmount) {
         super(accountId,password, holderName, balance,dateCreated);
-        this.loanAmount = loanAmount;
-        this.remainingAmount = remainingAmount;
+        setLoanAmount(loanAmount);
+        setRemainingAmount(remainingAmount);
     }
 
     public double getLoanAmount() {
@@ -29,7 +31,13 @@ public abstract class LoanAccount extends BankAccount {
         return remainingAmount;
     }
     public void setRemainingAmount(double remainingAmount) {
-        this.remainingAmount = remainingAmount;
+        if (remainingAmount>getLoanAmount()){
+            System.out.println("Error: remaining amount is bigger than total loan amount");
+        }
+        else{
+
+            this.remainingAmount = remainingAmount;
+        }
     }
 
 

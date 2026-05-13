@@ -10,14 +10,14 @@ public class HomeLoan extends LoanAccount {
     public HomeLoan(int accountId,String password, String holderName,
                    double balance,double loanAmount, double remainingAmount ,String propertyAddress) {
         super(accountId,password, holderName, balance, loanAmount, remainingAmount);
-        this.propertyAddress = propertyAddress;
+        setPropertyAddress(propertyAddress);
 
     }
 
     public HomeLoan(int accountId, String password, LocalDateTime dateCreated, String holderName,
                     double balance, double loanAmount, double remainingAmount , String propertyAddress) {
         super(accountId,password,dateCreated, holderName, balance, loanAmount, remainingAmount);
-        this.propertyAddress = propertyAddress;
+        setPropertyAddress(propertyAddress);
 
     }
 

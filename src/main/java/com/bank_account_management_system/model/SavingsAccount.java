@@ -12,14 +12,14 @@ public class SavingsAccount extends BankAccount{
     public SavingsAccount(int id ,String password, String holderName, double balance, double interestRate)
     {
         super(id,password, holderName, balance);
-        this.interestRate = interestRate;
+        setInterestRate(interestRate);
     }
     //for load
     public SavingsAccount(int id , String password, LocalDateTime dateCreated ,String holderName,
                           double balance, double interestRate)
     {
         super(id,password, holderName, balance,dateCreated);
-        this.interestRate = interestRate;
+        setInterestRate(interestRate);
     }
 
     public double getInterestRate() {

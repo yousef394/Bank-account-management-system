@@ -10,14 +10,14 @@ public class CarLoan extends LoanAccount {
     public CarLoan(int accountId,String password, String holderName,
                    double balance,double loanAmount, double remainingAmount ,String CarModel) {
         super(accountId,password, holderName, balance, loanAmount, remainingAmount);
-        this.CarModel = CarModel;
+        setCarModel(CarModel);
 
     }
 
     public CarLoan(int accountId, String password, LocalDateTime dateCreated, String holderName,
                    double balance, double loanAmount, double remainingAmount , String CarModel) {
         super(accountId,password,dateCreated, holderName, balance, loanAmount, remainingAmount);
-        this.CarModel = CarModel;
+        setCarModel(CarModel);
 
     }
 

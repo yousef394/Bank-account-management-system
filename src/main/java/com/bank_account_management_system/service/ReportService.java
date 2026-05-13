@@ -2,6 +2,9 @@ package com.bank_account_management_system.service;
 
 import com.bank_account_management_system.Repository.TransactionRepository;
 import com.bank_account_management_system.app.MainApplication;
+import com.bank_account_management_system.controller.DepositController;
+import com.bank_account_management_system.controller.WithdrawController;
+import com.bank_account_management_system.model.BankAccount;
 import com.bank_account_management_system.model.Transaction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,9 +47,30 @@ public class ReportService{
         // Make it 'Modal' (blocks the main window)
         popupStage.initModality(Modality.APPLICATION_MODAL);
 
-        popupStage.setScene(new Scene(root));
+        popupStage.setScene(new Scene(root, 350, 400));
         popupStage.show();
     }
+
+    public static void openActionPopup(String fxmlPath, BankAccount selectedAccount) throws IOException {
+        FXMLLoader loader = new FXMLLoader(ReportService.class.getResource("/com/bank_account_management_system/view/" + fxmlPath));
+        Parent root = loader.load();
+
+        // Get the controller of the window we just loaded
+        Object controller = loader.getController();
+
+        // Push the selected row's data into the controller
+        if (controller instanceof DepositController) {
+            ((DepositController) controller).initData(selectedAccount);
+        } else if (controller instanceof WithdrawController) {
+            ((WithdrawController) controller).initData(selectedAccount);
+        }
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+    }
+
 
     @FXML
     static public void closePopup(ActionEvent event) {

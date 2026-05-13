@@ -18,11 +18,13 @@
     <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="Transfer Money" />
 
     <!-- FROM ACCOUNT -->
-    <ComboBox fx:id="fromAccountBox" promptText="Select From Account" />
+    <TextField fx:id="fromAccountId" promptText="Select From Account" />
 
     <!-- TO ACCOUNT -->
-    <ComboBox fx:id="toAccountBox" promptText="Select To Account" />
+    <TextField fx:id="toAccountId" promptText="Select To Account" />
 
+    <!--  TO ACCOUNT TYPE  -->
+    <ComboBox fx:id="toAccountTypeBox" promptText="Recipient Account Type" prefWidth="200"/>
     <!-- AMOUNT -->
     <TextField fx:id="amountField" promptText="Enter Amount" style="-fx-background-radius:8;" />
 

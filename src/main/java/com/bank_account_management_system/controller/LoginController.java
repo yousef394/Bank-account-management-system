@@ -1,5 +1,7 @@
 package com.bank_account_management_system.controller;
 
+import com.bank_account_management_system.model.BankAccount;
+import com.bank_account_management_system.service.AccountService;
 import com.bank_account_management_system.service.ReportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +15,8 @@ import java.io.IOException;
 public class LoginController {
     @FXML
     private TextField usernameField;
+    @FXML
+    private Label errorLabel;
 
     @FXML
     private PasswordField passwordField;
@@ -20,9 +24,20 @@ public class LoginController {
     @FXML
     private Button btnLogin;
 
+    @FXML
     public void handleLogin(ActionEvent event) throws IOException {
+        String name = usernameField.getText();
+        String pass = passwordField.getText();
 
-        ReportService.changeScene("dashboard.fxml", event);
+        // Call the service
+        BankAccount userAccount = AccountService.login(name, pass);
 
-    }
-}
+        if (userAccount != null) {
+            ReportService.changeScene("dashboard.fxml", event);
+            // Move to the Dashboard/Main Screen
+            // You can store 'userAccount' in a static variable to know who is logged in
+        } else {
+            errorLabel.setText("Invalid Username or Password!");
+            errorLabel.setVisible(true);
+        }
+    }}

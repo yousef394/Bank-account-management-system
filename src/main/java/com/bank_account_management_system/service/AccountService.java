@@ -176,5 +176,40 @@ public class AccountService {
                 amount,balance2,balance2+amount));
 
     }
+    public static int getNextId() {
+        int maxId = 10000; // Starting point for bank accounts
 
+        // Gather all accounts from all repos
+        ArrayList<BankAccount> all = new ArrayList<>();
+        all.addAll(checkingRepo.getAllAccounts());
+        all.addAll(savingsRepo.getAllAccounts());
+        all.addAll(carLoanRepo.getAllAccounts());
+        all.addAll(homeLoanRepo.getAllAccounts());
+
+        for (BankAccount account : all) {
+            if (account.getAccountId() > maxId) {
+                maxId = account.getAccountId();
+            }
+        }
+
+        return maxId + 1;
+    }
+    public static BankAccount login(String name, String password) {
+        // 1. Gather all accounts from all files
+        ArrayList<BankAccount> allAccounts = new ArrayList<>();
+        allAccounts.addAll(checkingRepo.getAllAccounts());
+        allAccounts.addAll(savingsRepo.getAllAccounts());
+        allAccounts.addAll(carLoanRepo.getAllAccounts());
+        allAccounts.addAll(homeLoanRepo.getAllAccounts());
+
+        // 2. Search for the matching credentials
+        for (BankAccount account : allAccounts) {
+            if (account.getHolderName().equalsIgnoreCase(name) &&
+                    account.getPassword().equals(password)) {
+                return account; // Match found!
+            }
+        }
+
+        return null; // No match found
+    }
 }

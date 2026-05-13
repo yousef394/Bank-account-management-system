@@ -24,11 +24,11 @@
     <!-- PASSWORD -->
     <PasswordField fx:id="passwordField" promptText="Enter Password" style="-fx-background-radius:8;" />
 
-    <!-- ACCOUNT TYPE -->
-    <ComboBox fx:id="accountTypeBox" onAction="#handleTypeChange" promptText="Select Account Type" />
-
     <!-- INITIAL BALANCE -->
     <TextField fx:id="balanceField" promptText="Initial Balance" style="-fx-background-radius:8;" />
+
+    <!-- ACCOUNT TYPE -->
+    <ComboBox fx:id="accountTypeBox" onAction="#handleTypeChange" promptText="Select Account Type" />
 
     <!-- DYNAMIC FIELDS -->
     <VBox fx:id="dynamicFields" spacing="10" />

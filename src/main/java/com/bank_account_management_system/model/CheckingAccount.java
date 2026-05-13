@@ -11,23 +11,20 @@ public class CheckingAccount extends BankAccount {
     public CheckingAccount(int id ,String Password,String holderName,
                            double balance, double overdraft ) {
         super(id,Password,holderName,balance);
-        this.overdraftLimit = overdraft;
-        this.fee = fee;
+        setOverdraftLimit(overdraft);
     }
    // constructor for existed account
     public CheckingAccount(int id , String Password, LocalDateTime dateCreated, String holderName,
-                           double balance, double overdraft ) {
+                           double balance, double overdraft) {
         super(id,Password,holderName,balance,dateCreated);
-        this.overdraftLimit = overdraft;
-        this.fee = fee;
-
+        setOverdraftLimit(overdraft);
     }
 
     public CheckingAccount(int id ,String Password, LocalDateTime dateCreated,String holderName,
                            double balance, double overdraft, double fee ) {
         super(id,Password,holderName,balance);
-        this.overdraftLimit = overdraft;
-        this.fee = fee;
+        setOverdraftLimit(overdraft);
+        setFee(fee);
     }
 
 
