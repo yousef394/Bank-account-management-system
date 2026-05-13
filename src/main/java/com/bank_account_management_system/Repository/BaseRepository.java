@@ -88,6 +88,9 @@ import java.util.ArrayList;
 
      public T findById(int accountId) {
 
+         if (accountId <= 0)
+             return null;
+
           for( T account : getAll() ) {
 
               if (accountId ==getId(account))
