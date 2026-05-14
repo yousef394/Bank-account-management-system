@@ -136,50 +136,20 @@ Add login screenshot here
 
 ---
 
-# Quick Start
+# Workflow & Team Roles
 
-## Clone Repository
+This project is organized using a collaborative team-based workflow where responsibilities and development tasks are distributed across team members to improve scalability, maintainability, and productivity.
 
-```bash
-git clone https://github.com/your-username/nexo.git
-```
+The workspace includes:
 
----
+- Full project explanation
+- Development workflow
+- Task distribution
+- Team roles
+- Project planning process
+- Screens structure and implementation steps
 
-## Open Project
-
-Open the project using:
-- IntelliJ IDEA
-- Scene Builder
-
----
-
-## Run Application
-
-Run:
-```text
-MainApplication.java
-```
-
----
-
-# Team Workflow
-
-The project uses:
-- Branch-based development
-- Pull Requests
-- Code Reviews
-- Modular task distribution
-
----
-
-# Future Improvements
-
-- Database integration
-- Better authentication system
-- Export reports to PDF/Excel
-- Real-time dashboard updates
-- Cloud synchronization
+🔗 https://tinyurl.com/3fvz52as
 
 ---
 
