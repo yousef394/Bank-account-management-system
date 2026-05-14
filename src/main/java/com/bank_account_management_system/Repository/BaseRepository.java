@@ -1,99 +1,41 @@
 package com.bank_account_management_system.Repository;
 
 
-
 import com.bank_account_management_system.model.BankAccount;
 
-import java.io.*;
 import java.util.ArrayList;
 
-  abstract class BaseRepository<T> {
+  abstract class BaseRepository<T , K> extends FileManagement<T> implements CRUD<T , K> {
 
-     protected final String separator = "#//#";
-     private final String fileName;
-
-     public BaseRepository(String fileName) {
-          this.fileName = fileName;
+      //Constructor for get filePath
+      public BaseRepository(String fileName) {
+          super( fileName);
       }
 
-     //=========common methods=========
-     protected boolean appendLine(String Line)  {
-
-        boolean flag=false;
-       try( BufferedWriter bw = new BufferedWriter(new FileWriter(fileName,true));) {
-           bw.write(Line+"\n");
-           flag= true;
-       }
-        catch(IOException e) {
-            return false;
-
-        }
-
-
-        return flag;
-    }
-
-     protected boolean resetFile() {
-          try (BufferedWriter bw =
-                       new BufferedWriter(new FileWriter(fileName,false))) {
-
-          }
-          catch (IOException e) {
-              return false;
-          }
-          return true;
+      //Helper Method
+      protected String commonFormat(BankAccount object) {
+          return object.getAccountId() +
+                  separator +
+                  object.getPassword() +
+                  separator +
+                  object.getDateCreated() +
+                  separator +
+                  object.getHolderName() +
+                  separator +
+                  object.getBalance();
       }
 
-     //for help
-     protected String commonFormat(BankAccount object) {
-         return  object.getAccountId()+separator+
-                 object.getPassword()+separator+
-                 object.getDateCreated()+separator+
-                 object.getHolderName()+separator+
-                 object.getBalance();
-     }
 
-
-    //========CRUD Methods=======
+      //========CRUD Methods=======
      public boolean add(T object){
           return appendLine(format(object));
       }
 
-     public ArrayList<T> getAll(){
-
-          ArrayList<T> Accounts = new ArrayList<>();
-
-          try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-
-              String line;
-              T account;
-
-              while ((line = br.readLine()) != null)
-              {
-                  account =  parse(line);
-
-                  if(account!=null) {
-                      Accounts.add(account);
-                  }
-              }
-
-          }
-          catch(IOException e) {
-              return Accounts;
-
-          }
-
-          return Accounts;
-      }
-
-     public T findById(int accountId) {
-
-         if (accountId <= 0)
-             return null;
+     public T find(K key) {
 
           for( T account : getAll() ) {
 
-              if (accountId ==getId(account))
+              if (key.equals( getKey(account) ))
                   return account;
 
           }
@@ -101,7 +43,7 @@ import java.util.ArrayList;
           return null;
       }
 
-     public boolean delete(int accountId) {
+     public boolean delete(K key) {
           boolean result = false;
 
           ArrayList<T> accounts = getAll();
@@ -110,7 +52,7 @@ import java.util.ArrayList;
           if(resetFile()) {
               for (T account :  accounts) {
                   //skip
-                  if (getId(account) == accountId) {
+                  if (getKey(account).equals(key)) {
                       result = true;
                       continue;
                   }
@@ -134,7 +76,7 @@ import java.util.ArrayList;
           {
               for(T account : accounts) {
                   //update data
-                  if(getId(account) == getId(object)) {
+                  if(getKey(account).equals(getKey(object))) {
                       account =  object;
                       result = true;
 
@@ -150,12 +92,8 @@ import java.util.ArrayList;
 
       }
 
-
-
-      //===========abstract methods============
-     protected abstract String format(T object);
-     protected abstract T  parse(String line);
-     protected abstract int getId(T object);
+      //abstract method
+      protected abstract K getKey(T object);
 
 
   }
