@@ -1,11 +1,11 @@
 package com.bank_account_management_system.controller;
 
-import com.bank_account_management_system.model.BankAccount;
+import com.bank_account_management_system.Repository.UserRepository;
+import com.bank_account_management_system.model.User;
 import com.bank_account_management_system.service.AccountService;
 import com.bank_account_management_system.service.ReportService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,15 +22,15 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private Button btnLogin;
-
+    public void initialize() {
+    }
     @FXML
     public void handleLogin(ActionEvent event) throws IOException {
         String name = usernameField.getText();
         String pass = passwordField.getText();
-
+        UserRepository repo = new UserRepository();
         // Call the service
-        BankAccount userAccount = AccountService.login(name, pass);
+        User userAccount = repo.findByUserNameAndPassword(name, pass);
 
         if (userAccount != null) {
             ReportService.changeScene("dashboard.fxml", event);

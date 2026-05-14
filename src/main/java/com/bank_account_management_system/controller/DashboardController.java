@@ -1,25 +1,14 @@
 package com.bank_account_management_system.controller;
-import com.bank_account_management_system.app.MainApplication;
 import com.bank_account_management_system.model.*;
 import com.bank_account_management_system.service.AccountService;
-import com.bank_account_management_system.service.AccountType;
 import com.bank_account_management_system.service.ReportService;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,36 +26,28 @@ public class DashboardController {
         changeScene("login.fxml", event);
     }
 
-    public void handleDeposit(ActionEvent actionEvent) {
-        try {
-            // Grab whatever row the user clicked on
-            BankAccount selected = accountsTable.getSelectionModel().getSelectedItem();
+    public void handleDeposit() throws IOException {
+        // Grab whatever row the user clicked on
+        BankAccount selected = accountsTable.getSelectionModel().getSelectedItem();
 
-            // Pass it to the service
-            ReportService.openActionPopup("deposit.fxml", selected);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Pass it to the service
+        ReportService.openActionPopup("deposit.fxml", selected);
     }
 
-    public void handleWithdraw(ActionEvent actionEvent) {
-        try {
-            BankAccount selected = accountsTable.getSelectionModel().getSelectedItem();
-            ReportService.openActionPopup("withdraw.fxml", selected);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void handleWithdraw() throws IOException {
+        BankAccount selected = accountsTable.getSelectionModel().getSelectedItem();
+        ReportService.openActionPopup("withdraw.fxml", selected);
     }
 
-    public void handleTransfer(ActionEvent actionEvent) throws  IOException {
+    public void handleTransfer() throws  IOException {
         openPopup("transfer.fxml");
     }
 
-    public void handleAddAccount(ActionEvent actionEvent)throws  IOException  {
+    public void handleAddAccount()throws  IOException  {
         openPopup("Add_Account_Screen.fxml");
     }
 
-    public void handleDeleteAccount(ActionEvent actionEvent) {
+    public void handleDeleteAccount() {
         // 1. Get the selected account from the TableView
         BankAccount selectedAccount = accountsTable.getSelectionModel().getSelectedItem();
 
@@ -76,16 +57,11 @@ public class DashboardController {
         }
 
         // 2. Identify the AccountType (needed for the service switch)
-        AccountType type;
-        if (selectedAccount instanceof CheckingAccount) type = AccountType.CHECKING;
-        else if (selectedAccount instanceof SavingsAccount) type = AccountType.SAVINGS;
-        else if (selectedAccount instanceof CarLoan) type = AccountType.CARLOAN;
-        else type = AccountType.HOMELOAN;
 
 
 
         // 3. Call the service to remove it from the text files
-        boolean success = AccountService.delete(selectedAccount.getAccountId(), type);
+        boolean success = AccountService.delete(selectedAccount.getAccountId());
 
         if (success) {
             System.out.println("Account deleted successfully.");
@@ -149,14 +125,9 @@ public class DashboardController {
 
     }
 
-    public void handleReports(ActionEvent event) {
-        try {
-            // Use the existing utility method in ReportService to swap views
-            ReportService.changeScene("reports.fxml", event);
-        } catch (IOException e) {
-            System.out.println("Error loading reports.fxml: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public void handleReports(ActionEvent event) throws IOException {
+        // Use the existing utility method in ReportService to swap views
+        ReportService.changeScene("reports.fxml", event);
     }
 }
 

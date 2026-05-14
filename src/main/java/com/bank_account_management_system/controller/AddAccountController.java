@@ -14,8 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddAccountController {
+    private String seperator="#//#";
     @FXML
     private TextField nameField;
+    @FXML
+    private Label errorLabel;
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -31,23 +34,21 @@ public class AddAccountController {
     public void initialize() {
         // Feed data to the ComboBox as requested
         accountTypeBox.getItems().addAll("Checking Account", "Savings Account", "Home Loan", "Car Loan");
-
+        AccountService.applySanitizer(errorLabel, nameField, passwordField, balanceField);
     }
 
     @FXML
     public void handleCreateAccount(ActionEvent actionEvent) {
         try {
             // 1. DATA VALIDATION
-            if (accountTypeBox.getValue() == null || nameField.getText().isEmpty() ||
-                    passwordField.getText().isEmpty() || balanceField.getText().isEmpty()) {
+            if (accountTypeBox.getValue() == null ) {
                 System.out.println("Error: Please fill in all basic fields.");
+                errorLabel.setText("Error: Please fill in all basic fields.");
                 return;
             }
+            AccountService.validatePresence(errorLabel, nameField, passwordField, balanceField);
 
-            // 2. GENERATE THE ID (Replacing the '0')
-            int newId = AccountService.getNextId();
-
-            // 3. EXTRACT SHARED DATA
+            // 2. EXTRACT SHARED DATA
             String name = nameField.getText();
             String password = passwordField.getText();
             double balance = Double.parseDouble(balanceField.getText());
@@ -55,42 +56,69 @@ public class AddAccountController {
 
             BankAccount newAccount = null;
 
-            // 4. OBJECT CREATION BASED ON TYPE
+            // 3. OBJECT CREATION BASED ON TYPE
             switch (selectedType) {
                 case "Checking Account":
-                    double overdraft = Double.parseDouble(activeFields.get("overdraftLimit").getText());
+                    TextField overdraftLimitField = activeFields.get("overdraftLimit");
+
+                    double overdraft = Double.parseDouble(overdraftLimitField.getText());
+
                     // Matches constructor: (id, password, name, balance, overdraft)
-                    newAccount = new CheckingAccount(newId, password, name, balance, overdraft);
+                    newAccount = new CheckingAccount(password, name, balance, overdraft);
                     break;
 
                 case "Savings Account":
-                    double rate = Double.parseDouble(activeFields.get("interestRate").getText());
+                    TextField interestRateField = activeFields.get("interestRate");
+
+                    double rate = Double.parseDouble(interestRateField.getText());
+
                     // Matches constructor: (id, password, name, balance, interestRate)
-                    newAccount = new SavingsAccount(newId, password, name, balance, rate);
+                    newAccount = new SavingsAccount(password, name, balance, rate);
                     break;
 
                 case "Home Loan":
-                    double homeAmt = Double.parseDouble(activeFields.get("loanAmount").getText());
-                    double homeRem = Double.parseDouble(activeFields.get("remainingAmount").getText());
-                    String address = activeFields.get("propertyAddress").getText();
+
+                    TextField loanAmountField = activeFields.get("loanAmount");
+                    TextField remainingAmountField = activeFields.get("remainingAmount");
+                    TextField propertyAddressField = activeFields.get("propertyAddress");
+                    AccountService.validatePresence(errorLabel, propertyAddressField);
+
+                    double homeAmt = Double.parseDouble(loanAmountField.getText());
+                    double homeRem = Double.parseDouble(remainingAmountField.getText());
+                    String address = propertyAddressField.getText();
+                    if (homeRem>homeAmt){
+                        errorLabel.setText("remaining amount can't be more than loan amount");
+                        System.out.println("remaining amount can't be more than loan amount");
+                    }
                     // Matches constructor: (id, password, name, balance, loanAmt, remainAmt, address)
-                    newAccount = new HomeLoan(newId, password, name, balance, homeAmt, homeRem, address);
+                    newAccount = new HomeLoan(password, name, balance, homeAmt, homeRem, address);
                     break;
 
                 case "Car Loan":
-                    double carAmt = Double.parseDouble(activeFields.get("loanAmount").getText());
-                    double carRem = Double.parseDouble(activeFields.get("remainingAmount").getText());
-                    String model = activeFields.get("carModel").getText();
+                     loanAmountField = activeFields.get("loanAmount");
+                     remainingAmountField = activeFields.get("remainingAmount");
+                    TextField carModelField = activeFields.get("carModel");
+                    AccountService.validatePresence(errorLabel, carModelField);
+
+                    double carAmt = Double.parseDouble(loanAmountField.getText());
+                    double carRem = Double.parseDouble(remainingAmountField.getText());
+                    String model = carModelField.getText();
+                    if (carRem>carAmt){
+                        errorLabel.setText("remaining amount can't be more than loan amount");
+                        System.out.println("remaining amount can't be more than loan amount");
+                    }
+
+
                     // Matches constructor: (id, password, name, balance, loanAmt, remainAmt, model)
-                    newAccount = new CarLoan(newId, password, name, balance, carAmt, carRem, model);
+                    newAccount = new CarLoan( password, name, balance, carAmt, carRem, model);
                     break;
             }
 
-            // 5. SAVE AND CLOSE
+            // 4. SAVE AND CLOSE
             if (newAccount != null) {
                 boolean success = AccountService.createAccount(newAccount);
                 if (success) {
-                    System.out.println("Created Account With Id: " + newId);
+                    System.out.println("Created Account With Name: " + name);
 
                     if (DashboardController.instance != null) {
                         DashboardController.instance.loadAccountData();
@@ -102,10 +130,10 @@ public class AddAccountController {
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Input Error: Please ensure Balance, Rates, and Limits are numbers.");
+            System.err.println("Input Error: Please ensure Balance, Rates, and Limits are typed and/or numbers.");
+            errorLabel.setText("Input Error: Please ensure Balance, Rates, and Limits are typed and/or numbers.");
         } catch (Exception e) {
-            System.out.println("Unexpected Error: " + e.getMessage());
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -113,7 +141,7 @@ public class AddAccountController {
         ReportService.closePopup(actionEvent);
     }
 
-    public void handleTypeChange(ActionEvent actionEvent) {
+    public void handleTypeChange() {
         // 1. Clear the old fields
         dynamicFields.getChildren().clear();
         activeFields.clear();
@@ -145,6 +173,7 @@ public class AddAccountController {
         TextField tf = new TextField();
         tf.setPromptText(prompt);
         tf.setStyle("-fx-background-radius:8;");
+        AccountService.applySanitizer(errorLabel,tf);
         dynamicFields.getChildren().add(tf);
         activeFields.put(id, tf); // Save reference to read later
     }

@@ -47,9 +47,9 @@ import java.util.ArrayList;
      //for help
      protected String commonFormat(BankAccount object) {
          return  object.getAccountId()+separator+
-                 object.getPassword()+separator+
+                 sanitize(object.getPassword())+separator+
                  object.getDateCreated()+separator+
-                 object.getHolderName()+separator+
+                 sanitize(object.getHolderName())+separator+
                  object.getBalance();
      }
 
@@ -157,5 +157,9 @@ import java.util.ArrayList;
      protected abstract T  parse(String line);
      protected abstract int getId(T object);
 
-
+      protected String sanitize(String input) {
+          if (input == null) return "";
+          // Replace the forbidden sequence with a safe space
+          return input.replace(separator, " ");
+      }
   }

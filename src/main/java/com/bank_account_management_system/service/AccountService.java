@@ -3,6 +3,8 @@ package com.bank_account_management_system.service;
 
 import com.bank_account_management_system.Repository.*;
 import com.bank_account_management_system.model.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 
 import java.util.ArrayList;
@@ -179,40 +181,22 @@ public class AccountService {
                 amount,balance2,balance2+amount));
 
     }
-    public static int getNextId() {
-        int maxId = 10000; // Starting point for bank accounts
-
-        // Gather all accounts from all repos
-        ArrayList<BankAccount> all = new ArrayList<>();
-        all.addAll(checkingRepo.getAllAccounts());
-        all.addAll(savingsRepo.getAllAccounts());
-        all.addAll(carLoanRepo.getAllAccounts());
-        all.addAll(homeLoanRepo.getAllAccounts());
-
-        for (BankAccount account : all) {
-            if (account.getAccountId() > maxId) {
-                maxId = account.getAccountId();
-            }
+    public static void applySanitizer(Label errorLabel,TextField... fields) {
+        for (TextField field : fields) {
+            field.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && newValue.contains("#//#")) {
+                    field.setText(oldValue); // Revert to what it was before the illegal char
+                    errorLabel.setText("The sequence '#//#' is reserved for system use.");
+                }
+            });
         }
-
-        return maxId + 1;
     }
-    public static BankAccount login(String name, String password) {
-        // 1. Gather all accounts from all files
-        ArrayList<BankAccount> allAccounts = new ArrayList<>();
-        allAccounts.addAll(checkingRepo.getAllAccounts());
-        allAccounts.addAll(savingsRepo.getAllAccounts());
-        allAccounts.addAll(carLoanRepo.getAllAccounts());
-        allAccounts.addAll(homeLoanRepo.getAllAccounts());
-
-        // 2. Search for the matching credentials
-        for (BankAccount account : allAccounts) {
-            if (account.getHolderName().equalsIgnoreCase(name) &&
-                    account.getPassword().equals(password)) {
-                return account; // Match found!
+    public static void validatePresence(Label errorLabel,TextField... fields) throws Exception {
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i] == null || fields[i].getText().isBlank()) {
+                errorLabel.setText("Error: Please fill in all basic fields.");
+                throw new Exception("Error: Please fill in all basic fields.");
             }
         }
-
-        return null; // No match found
     }
 }
