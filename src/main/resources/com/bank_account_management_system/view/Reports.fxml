@@ -48,7 +48,7 @@
                     <yAxis><NumberAxis label="Count" tickLabelFill="white"/></yAxis>
                 </BarChart>
 
-                <PieChart fx:id="reportPieChart" title="Transactions Distribution"
+                <PieChart fx:id="reportPieChart" title="Accounts Distribution"
                           prefHeight="350" visible="false" managed="false"
                           legendVisible="false" legendSide="RIGHT" />
 

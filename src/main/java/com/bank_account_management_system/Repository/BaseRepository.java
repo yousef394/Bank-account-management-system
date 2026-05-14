@@ -12,20 +12,6 @@ import java.util.ArrayList;
           super( fileName);
       }
 
-      //Helper Method
-      protected String commonFormat(BankAccount object) {
-          return object.getAccountId() +
-                  separator +
-                  object.getPassword() +
-                  separator +
-                  object.getDateCreated() +
-                  separator +
-                  object.getHolderName() +
-                  separator +
-                  object.getBalance();
-      }
-
-<<<<<<< HEAD
      //for help
      protected String commonFormat(BankAccount object) {
          return  object.getAccountId()+separator+
@@ -34,8 +20,6 @@ import java.util.ArrayList;
                  sanitize(object.getHolderName())+separator+
                  object.getBalance();
      }
-=======
->>>>>>> 9b7eaa635342815b5eb004dc4e70a228c604d511
 
       //========CRUD Methods=======
      public boolean add(T object){

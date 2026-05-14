@@ -1,9 +1,8 @@
 package com.bank_account_management_system.controller;
 
-import com.bank_account_management_system.Repository.UserRepository;
 import com.bank_account_management_system.model.User;
-import com.bank_account_management_system.service.AccountService;
 import com.bank_account_management_system.service.ReportService;
+import com.bank_account_management_system.service.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,9 +27,8 @@ public class LoginController {
     public void handleLogin(ActionEvent event) throws IOException {
         String name = usernameField.getText();
         String pass = passwordField.getText();
-        UserRepository repo = new UserRepository();
         // Call the service
-        User userAccount = repo.findByUserNameAndPassword(name, pass);
+        User userAccount = UserService.findByUserNameAndPassword(name, pass);
 
         if (userAccount != null) {
             ReportService.changeScene("dashboard.fxml", event);

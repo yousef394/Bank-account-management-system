@@ -98,6 +98,7 @@ public class AddAccountController {
                     if (homeRem>homeAmt){
                         errorLabel.setText("remaining amount can't be more than loan amount");
                         System.out.println("remaining amount can't be more than loan amount");
+                        return;
                     }
                     // Matches constructor: (id, password, name, balance, loanAmt, remainAmt, address)
                     newAccount = new HomeLoan(password, name, balance, homeAmt, homeRem, address);

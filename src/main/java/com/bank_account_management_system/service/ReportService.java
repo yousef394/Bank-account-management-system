@@ -102,7 +102,7 @@ public class ReportService{
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Number of Transactions");
 
-// 1. Get all transactions from the physical file
+        // 1. Get all transactions from the physical file
         ArrayList<Transaction> allTransactions = transactionRepo.getAll();
 
         // 2. Count transactions per account using a Map
@@ -110,17 +110,31 @@ public class ReportService{
         for (Transaction t : allTransactions) {
             counts.put(t.getAccountId(), counts.getOrDefault(t.getAccountId(), 0) + 1);
         }
-
-        // 3. Populate the chart with real IDs and their actual counts
-        StringBuilder details = new StringBuilder("--- Transaction Activity Report ---\n");
+// 2. THIS WAS MISSING: Fill the series with data from the Map
         for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+            // String.valueOf(entry.getKey()) handles the X-axis (Account ID)
+            // entry.getValue() handles the Y-axis (Number of transactions)
             series.getData().add(new XYChart.Data<>(String.valueOf(entry.getKey()), entry.getValue()));
-            details.append("Account ID: ").append(entry.getKey())
-                    .append(" | Activity: ").append(entry.getValue()).append(" transactions\n");
         }
+// 3. Populate the Bar Chart and the History Details
+        StringBuilder details = new StringBuilder("--- Recent Transaction History ---\n");
+        details.append(String.format("%-10s | %-10s | %-10s | %-20s\n", "ID", "Type", "Amount", "Date"));
+        details.append("------------------------------------------------------------\n");
 
+// Sort transactions so the latest ones appear first in the text area
+        allTransactions.sort((t1, t2) -> t2.getDate().compareTo(t1.getDate()));
+
+        for (Transaction t : allTransactions) {
+            // Add data to the string details (The History)
+            details.append(String.format("%-10d | %-10s | %-10.2f | %-20s\n",
+                    t.getAccountId(),
+                    t.getType(),
+                    t.getAmount(),
+                    t.getDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
+        }
         reportBarChart.getData().add(series);
-        reportArea.setText(details.toString());    }
+        reportArea.setText(details.toString());
+    }
 
     public static void showPieChart(BarChart reportBarChart, PieChart reportPieChart, TextArea reportArea) {
         reportPieChart.setVisible(true);
