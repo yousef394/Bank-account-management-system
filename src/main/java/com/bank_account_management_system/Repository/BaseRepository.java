@@ -25,6 +25,15 @@ import java.util.ArrayList;
                   object.getBalance();
       }
 
+     //for help
+     protected String commonFormat(BankAccount object) {
+         return  object.getAccountId()+separator+
+                 sanitize(object.getPassword())+separator+
+                 object.getDateCreated()+separator+
+                 sanitize(object.getHolderName())+separator+
+                 object.getBalance();
+     }
+
 
       //========CRUD Methods=======
      public boolean add(T object){
@@ -95,5 +104,9 @@ import java.util.ArrayList;
       //abstract method
       protected abstract K getKey(T object);
 
-
+      protected String sanitize(String input) {
+          if (input == null) return "";
+          // Replace the forbidden sequence with a safe space
+          return input.replace(separator, " ");
+      }
   }
