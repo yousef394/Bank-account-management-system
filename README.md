@@ -4,8 +4,6 @@
 
 <br>
 
-
-
 <br>
 
 ![Java](https://img.shields.io/badge/Java-17+-0D2F66?style=for-the-badge)
@@ -149,7 +147,10 @@ The workspace includes:
 
 🔗 https://tinyurl.com/3fvz52as
 
+
 ---
+
+
 
 # License
 
@@ -163,3 +164,50 @@ The workspace includes:
 ```
 
 This project is licensed under the **BrainStack License**.
+
+---
+
+# The Team
+<br>
+<div align="center">
+<table>
+<tr>
+
+<td align="center" width="250px">
+<img src="https://github.com/yousef394.png" width="100px"/>
+<br>
+<a href="https://github.com/yousef394">Yousef Ahmed</a>
+  <br>
+  <sub>Project Lead • UI/UX • Integration</sub>
+</td>
+
+<td align="center" width="250px">
+<img src="https://github.com/AbdoWalid1451.png" width="100px"/>
+<br>
+<a href="https://github.com/AbdoWalid1451">Abdulrahman Walid</a>
+  <br>
+  <sub>Core Logic • File Handling</sub>
+</td>
+
+<td align="center" width="250px">
+<img src="https://github.com/FadyAshraf-dev.png" width="100px"/>
+<br>
+<a href="https://github.com/FadyAshraf-dev">Fady Ashraf</a>
+  <br>
+ <sub>JavaFX Controller</sub>
+</td>
+
+</tr>
+</table>
+</div>
+<br>
+
+---
+
+<div align="center">
+
+#### Java never dies
+
+</div>
+
+
