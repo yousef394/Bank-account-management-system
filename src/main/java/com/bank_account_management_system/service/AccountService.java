@@ -46,16 +46,16 @@ public class AccountService {
 
        BankAccount account;
 
-       if ((account = checkingRepo.findById(id) ) != null)
+       if ((account = checkingRepo.find(id) ) != null)
           return account;
 
-       else if ((account = savingsRepo.findById(id) ) != null)
+       else if ((account = savingsRepo.find(id) ) != null)
            return account;
 
-       else if ((account = carLoanRepo.findById(id) ) != null)
+       else if ((account = carLoanRepo.find(id) ) != null)
            return account;
 
-       else if ((account = homeLoanRepo.findById(id) ) != null)
+       else if ((account = homeLoanRepo.find(id) ) != null)
            return account;
 
        else return null;
