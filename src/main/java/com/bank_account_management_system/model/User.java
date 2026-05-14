@@ -57,7 +57,10 @@ public class User implements Printable {
     //========== Override Methods =========
     @Override
     public String printDetails() {
-        return username + " | " + password + " | " + name + " | " + email;
+        return "username: "+ username + " | " +
+               "password: " + password + " | " +
+               "name: "+name + " | " +
+               "email: " + email;
     }
 
 }
