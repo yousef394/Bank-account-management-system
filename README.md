@@ -1,12 +1,10 @@
-<div align="center">
+<div >
 
-<img src="assets/nexo-banner.png" width="100%"/>
+<img src="assets/nexo-banner.png" width="75%"/>
 
-# Nexo
+<br>
 
-### Smart Banking. Total Control.
 
-Modern desktop banking system built with Java & JavaFX.
 
 <br>
 
