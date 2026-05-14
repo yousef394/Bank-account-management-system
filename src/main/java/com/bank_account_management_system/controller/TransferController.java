@@ -1,6 +1,7 @@
 package com.bank_account_management_system.controller;
 
 import com.bank_account_management_system.model.BankAccount;
+import com.bank_account_management_system.model.CheckingAccount;
 import com.bank_account_management_system.service.AccountService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +36,13 @@ public class TransferController {
                 errorLabel.setText("toId not found");
                 return;
             }
+            if (!(fromAcc instanceof CheckingAccount)){
+                System.out.println("can't withdraw from a non-checking account");
+                errorLabel.setText("can't withdraw from a non-checking account");
+                return;
+
+            }
+
             BankAccount toAcc = AccountService.find(fromId);
             if (toAcc == null){
                 System.out.println("fromId not found");

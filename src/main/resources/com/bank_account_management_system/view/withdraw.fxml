@@ -14,7 +14,7 @@
     </padding>
 
     <!-- TITLE -->
-    <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="Transfer Money" />
+    <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="Withdraw Money" />
 
     <!-- FROM ACCOUNT -->
     <TextField fx:id="idField" promptText="Account ID" />
