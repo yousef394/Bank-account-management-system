@@ -6,7 +6,7 @@ import com.bank_account_management_system.model.TransactionType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class TransactionRepository extends BaseRepository<Transaction>{
+public class TransactionRepository extends BaseRepository<Transaction , Integer>{
 
 
     public TransactionRepository() {
@@ -39,7 +39,7 @@ public class TransactionRepository extends BaseRepository<Transaction>{
     }
 
     @Override
-    protected int getId(Transaction object) {
+    protected Integer getKey(Transaction object) {
         return object.getAccountId();
     }
 

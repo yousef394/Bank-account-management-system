@@ -3,7 +3,7 @@ package com.bank_account_management_system.Repository;
 import com.bank_account_management_system.model.CarLoan;
 import java.time.LocalDateTime;
 
-public class CarLoanRepository extends BaseRepository<CarLoan> {
+public class CarLoanRepository extends BaseRepository<CarLoan , Integer> {
 
     public CarLoanRepository() {
         //file path
@@ -35,7 +35,7 @@ public class CarLoanRepository extends BaseRepository<CarLoan> {
     }
 
     @Override
-    protected int getId(CarLoan object) {
+    protected Integer getKey(CarLoan object) {
         return object.getAccountId();
     }
 

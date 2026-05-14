@@ -3,7 +3,7 @@ package com.bank_account_management_system.Repository;
 import com.bank_account_management_system.model.CheckingAccount;
 import java.time.LocalDateTime;
 
-public  class CheckingAccountRepository extends BaseRepository<CheckingAccount> {
+public  class CheckingAccountRepository extends BaseRepository<CheckingAccount , Integer> {
 
     public CheckingAccountRepository() {
         //file path
@@ -37,7 +37,7 @@ public  class CheckingAccountRepository extends BaseRepository<CheckingAccount> 
     }
 
     @Override
-    protected int getId(CheckingAccount object) {
+    protected Integer getKey(CheckingAccount object) {
         return object.getAccountId();
     }
 

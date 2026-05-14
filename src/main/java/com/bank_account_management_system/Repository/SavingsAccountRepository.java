@@ -4,7 +4,7 @@ import com.bank_account_management_system.model.SavingsAccount;
 import java.time.LocalDateTime;
 
 
-public class SavingsAccountRepository extends BaseRepository<SavingsAccount> {
+public class SavingsAccountRepository extends BaseRepository<SavingsAccount , Integer> {
 
     public SavingsAccountRepository() {
         //file path
@@ -33,7 +33,7 @@ public class SavingsAccountRepository extends BaseRepository<SavingsAccount> {
     }
 
     @Override
-    protected int getId(SavingsAccount object) {
+    protected Integer getKey(SavingsAccount object) {
         return object.getAccountId();
     }
 
