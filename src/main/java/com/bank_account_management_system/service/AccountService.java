@@ -191,12 +191,4 @@ public class AccountService {
             });
         }
     }
-    public static void validatePresence(Label errorLabel,TextField... fields) throws Exception {
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i] == null || fields[i].getText().isBlank()) {
-                errorLabel.setText("Error: Please fill in all basic fields.");
-                throw new Exception("Error: Please fill in all basic fields.");
-            }
-        }
-    }
 }

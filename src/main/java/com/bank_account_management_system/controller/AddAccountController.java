@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddAccountController {
-    private String seperator="#//#";
     @FXML
     private TextField nameField;
     @FXML
@@ -41,12 +40,19 @@ public class AddAccountController {
     public void handleCreateAccount(ActionEvent actionEvent) {
         try {
             // 1. DATA VALIDATION
-            if (accountTypeBox.getValue() == null ) {
-                System.out.println("Error: Please fill in all basic fields.");
-                errorLabel.setText("Error: Please fill in all basic fields.");
+            if(accountTypeBox.getValue() == null){
+                System.out.println("Error: Please choose the account type.");
+                errorLabel.setText("Error: Please choose the account type.");
+                return;
+
+            }
+            if ( nameField== null ||
+                nameField.getText().isBlank()||passwordField== null ||
+                passwordField.getText().isBlank()  ) {
+                System.out.println("Error: Please fill in all String fields.");
+                errorLabel.setText("Error: Please fill in all String fields.");
                 return;
             }
-            AccountService.validatePresence(errorLabel, nameField, passwordField, balanceField);
 
             // 2. EXTRACT SHARED DATA
             String name = nameField.getText();
@@ -81,7 +87,11 @@ public class AddAccountController {
                     TextField loanAmountField = activeFields.get("loanAmount");
                     TextField remainingAmountField = activeFields.get("remainingAmount");
                     TextField propertyAddressField = activeFields.get("propertyAddress");
-                    AccountService.validatePresence(errorLabel, propertyAddressField);
+                    if (propertyAddressField== null || propertyAddressField.getText().isBlank()) {
+                        System.out.println("Error: Please fill in all String fields.");
+                        errorLabel.setText("Error: Please fill in all String fields.");
+                        return;
+                    }
 
                     double homeAmt = Double.parseDouble(loanAmountField.getText());
                     double homeRem = Double.parseDouble(remainingAmountField.getText());
@@ -98,7 +108,11 @@ public class AddAccountController {
                      loanAmountField = activeFields.get("loanAmount");
                      remainingAmountField = activeFields.get("remainingAmount");
                     TextField carModelField = activeFields.get("carModel");
-                    AccountService.validatePresence(errorLabel, carModelField);
+                    if (carModelField== null || carModelField.getText().isBlank()) {
+                        System.out.println("Error: Please fill in all String fields.");
+                        errorLabel.setText("Error: Please fill in all String fields.");
+                        return;
+                    }
 
                     double carAmt = Double.parseDouble(loanAmountField.getText());
                     double carRem = Double.parseDouble(remainingAmountField.getText());
@@ -106,6 +120,7 @@ public class AddAccountController {
                     if (carRem>carAmt){
                         errorLabel.setText("remaining amount can't be more than loan amount");
                         System.out.println("remaining amount can't be more than loan amount");
+                        return;
                     }
 
 
@@ -130,10 +145,8 @@ public class AddAccountController {
             }
 
         } catch (NumberFormatException e) {
-            System.err.println("Input Error: Please ensure Balance, Rates, and Limits are typed and/or numbers.");
-            errorLabel.setText("Input Error: Please ensure Balance, Rates, and Limits are typed and/or numbers.");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println("Input Error: Please check numerical inputs.");
+            errorLabel.setText("Input Error: Please check numerical inputs.");
         }
     }
 

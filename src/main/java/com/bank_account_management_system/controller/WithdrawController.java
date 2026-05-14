@@ -33,37 +33,36 @@ public class WithdrawController {
     @FXML
     public void handleWithdraw(ActionEvent event) {
         try {
-            AccountService.validatePresence(errorLabel, idField,amountField);
             int id = Integer.parseInt(idField.getText());
             double amount = Double.parseDouble(amountField.getText());
+            BankAccount acc = AccountService.find(id);
+            if (acc == null){
+                System.out.println("id not found");
+                errorLabel.setText("id not found");
+                return;
+            }
+            if (!(acc instanceof CheckingAccount)){
+                System.out.println("can't withdraw from a non-checking account");
+                errorLabel.setText("can't withdraw from a non-checking account");
+                return;
+
+            }
+
+            if(amount <.01){
+                System.out.println("can't withdraw less than .01");
+                errorLabel.setText("can't withdraw less than .01");
+                return;
+            }
             // Calls your Checking-specific logic
             if (AccountService.withdraw(id, amount)) {
                 DashboardController.instance.loadAccountData();
                 handleCancel(event);
             }
-            BankAccount acc = AccountService.find(id);
-            if (!(acc instanceof CheckingAccount)){
-                System.out.println("can't withdraw from a non-checking account");
-                errorLabel.setText("can't withdraw from a non-checking account");
 
-            }
-            if (acc == null){
-                System.out.println("id not found");
-                errorLabel.setText("id not found");
-            }
-            if(amount <.01){
-                System.out.println("can't withdraw less than .01");
-                errorLabel.setText("can't withdraw less than .01");
-            }
         }
         catch (NumberFormatException e) {
-            System.out.println("Error: Please enter valid numbers for IDs, Amount... etc");
-            errorLabel.setText("Error: Please enter valid numbers for IDs, Amount... etc");
-        }
-
-        catch (Exception e) {
-            System.out.println("Withdraw error!");
-            errorLabel.setText("Withdraw error!");
+            System.out.println("Error: Please check numerical inputs.");
+            errorLabel.setText("Error: Please check numerical inputs.");
         }
     }
 

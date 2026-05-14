@@ -1,5 +1,6 @@
 package com.bank_account_management_system.controller;
 
+import com.bank_account_management_system.model.BankAccount;
 import com.bank_account_management_system.service.AccountService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,13 +26,25 @@ public class TransferController {
     @FXML
     public void handleTransfer(ActionEvent event) {
         try {
-            AccountService.validatePresence(errorLabel, fromAccountId, toAccountId, amountField);
             int fromId = Integer.parseInt(fromAccountId.getText());
             int toId = Integer.parseInt(toAccountId.getText());
             double amount = Double.parseDouble(amountField.getText());
+            BankAccount fromAcc = AccountService.find(toId);
+            if (fromAcc == null){
+                System.out.println("toId not found");
+                errorLabel.setText("toId not found");
+                return;
+            }
+            BankAccount toAcc = AccountService.find(fromId);
+            if (toAcc == null){
+                System.out.println("fromId not found");
+                errorLabel.setText("fromId not found");
+                return;
+            }
             if(amount <.01){
                 System.out.println("can't transfer less than .01");
                 errorLabel.setText("can't transfer less than .01");
+                return;
             }
             // Call the transfer method in AccountService
             boolean success = AccountService.transfer(fromId, toId, amount);
@@ -55,9 +68,6 @@ public class TransferController {
         catch (NumberFormatException e) {
             System.out.println("Error: Please enter valid numbers for IDs, Amount.");
             errorLabel.setText("Error: Please enter valid numbers for IDs, Amount.");
-        } catch (Exception e) {
-
-            throw new RuntimeException(e);
         }
     }
 

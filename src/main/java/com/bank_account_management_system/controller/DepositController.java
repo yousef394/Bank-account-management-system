@@ -31,22 +31,23 @@ public class DepositController {
     @FXML
     public void handleDeposit(ActionEvent event) {
         try {
-            AccountService.validatePresence(errorLabel, idField,amountField);
             int id = Integer.parseInt(idField.getText());
             double amount = Double.parseDouble(amountField.getText());
-
-            if (AccountService.deposit(id, amount)) {
-                DashboardController.instance.loadAccountData(); // Refresh the table
-                handleCancel(event);
-            }
-            if(amount <.01){
-                System.out.println("can't deposit less than .01");
-                errorLabel.setText("can't deposit less than .01");
-            }
             BankAccount acc = AccountService.find(id);
             if (acc == null){
                 System.out.println("id not found");
                 errorLabel.setText("id not found");
+                return;
+            }
+            if(amount <.01){
+                System.out.println("can't deposit less than .01");
+                errorLabel.setText("can't deposit less than .01");
+                return;
+            }
+            boolean success = AccountService.deposit(id, amount);
+            if (success) {
+                DashboardController.instance.loadAccountData(); // Refresh the table
+                handleCancel(event);
             }
 
 
@@ -54,11 +55,6 @@ public class DepositController {
         catch (NumberFormatException e) {
             System.out.println("Error: Please enter valid numbers for IDs, Amount... etc");
             errorLabel.setText("Error: Please enter valid numbers for IDs, Amount... etc");
-        }
-
-        catch (Exception e) {
-            System.out.println("Check inputs!");
-            errorLabel.setText("Input types are incompatible");
         }
     }
 
