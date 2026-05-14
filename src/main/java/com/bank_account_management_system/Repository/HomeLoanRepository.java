@@ -5,7 +5,7 @@ import com.bank_account_management_system.model.HomeLoan;
 import java.time.LocalDateTime;
 
 
-public class HomeLoanRepository extends BaseRepository<HomeLoan> {
+public class HomeLoanRepository extends BaseRepository<HomeLoan , Integer> {
 
     public HomeLoanRepository() {
         //file path
@@ -39,7 +39,7 @@ public class HomeLoanRepository extends BaseRepository<HomeLoan> {
     }
 
     @Override
-    protected int getId(HomeLoan object) {
+    protected Integer getKey(HomeLoan object) {
         return object.getAccountId();
     }
 
