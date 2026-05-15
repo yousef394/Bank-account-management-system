@@ -3,16 +3,13 @@ package com.bank_account_management_system.model;
 public class User implements Printable {
 
     //======== Data Fields =======
-    private  String username; // Read only
+    private final String username; // Read only
     private String password;
     private String name;
     private String email;
 
     //======== Constructor ==========
     public User(String username, String password, String name, String email) {
-
-        if(username =="")
-           throw  new IllegalArgumentException("Username cannot be empty");
 
         this.username = username;
         this.password = password;
