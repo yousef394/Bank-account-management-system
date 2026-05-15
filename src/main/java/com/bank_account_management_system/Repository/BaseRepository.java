@@ -12,14 +12,23 @@ import java.util.ArrayList;
           super( fileName);
       }
 
-     //for help
-     protected String commonFormat(BankAccount object) {
-         return  object.getAccountId()+separator+
-                 sanitize(object.getPassword())+separator+
-                 object.getDateCreated()+separator+
-                 sanitize(object.getHolderName())+separator+
-                 object.getBalance();
-     }
+
+      // for Encryption & Decryption
+      Protecting protecting = new Protecting("1234567890123456");
+
+      //Helper Method
+      protected String commonFormat(BankAccount object) {
+          return object.getAccountId() +
+                  separator +
+                  protecting.encrypt(sanitize(object.getPassword())) +
+                  separator +
+                  object.getDateCreated() +
+                  separator +
+                  sanitize(object.getHolderName()) +
+                  separator +
+                  object.getBalance();
+      }
+
 
       //========CRUD Methods=======
      public boolean add(T object){
