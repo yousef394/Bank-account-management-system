@@ -17,7 +17,13 @@ public class AccountService {
     private static final CarLoanRepository carLoanRepo = new CarLoanRepository();
     private static final HomeLoanRepository homeLoanRepo = new HomeLoanRepository();
     private static final TransactionRepository transactionRepo = new TransactionRepository();
-
+    private static User user;
+    public static void setUser(User u){
+        user = u;
+    }
+    public static User getUser(){
+        return user;
+    }
     public static boolean createAccount(BankAccount account) {
         if (account == null) { return false; }
 

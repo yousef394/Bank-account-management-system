@@ -21,7 +21,7 @@ public class DashboardController {
     @FXML private Label totalAccountsLabel;
     @FXML private Label totalBalanceLabel;
     @FXML private Label loanCountLabel;
-
+    @FXML private Label welcomeLabel;
     public void handleLogout(ActionEvent event) throws IOException {
         changeScene("login.fxml", event);
     }
@@ -80,6 +80,7 @@ public class DashboardController {
     @FXML
     public void initialize() {
         instance = this;
+        welcomeLabel.setText("Hello, " + AccountService.getUser().getUsername());
         loadAccountData();
         // 1. Link columns to BankAccount properties
         // These strings MUST match the getter names (e.g., "accountId" matches "getAccountId()")
