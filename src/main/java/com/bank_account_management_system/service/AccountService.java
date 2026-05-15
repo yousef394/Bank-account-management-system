@@ -55,7 +55,7 @@ public class AccountService {
         return checkingRepo.delete(id) || savingsRepo.delete(id) || carLoanRepo.delete(id) || homeLoanRepo.delete(id);
     }
 
-    public  BankAccount find(int id) {
+    public  BankAccount findById(int id) {
 
        BankAccount account;
 
@@ -73,6 +73,17 @@ public class AccountService {
 
        else return null;
 
+    }
+
+    public BankAccount findByIdAndPassword(int id , String password) {
+        BankAccount account =  findById(id);
+
+        if (account != null) {
+            if (password.equals(account.getPassword())) {
+                return account;
+            }
+        }
+        return null;
     }
 
     public  boolean saveAccount(BankAccount account) {
@@ -144,8 +155,8 @@ public class AccountService {
 
     }
 
-    public boolean deposit(int id, Double amount) {
-        BankAccount account = find(id);
+    public boolean deposit(int id,String password, Double amount) {
+        BankAccount account = findByIdAndPassword(id,password);
 
         if (account == null || amount == null || amount <= 0)
             return false;
@@ -159,8 +170,8 @@ public class AccountService {
 
     }
 
-    public boolean withdraw(int id, Double amount) {
-       BankAccount account = find(id);
+    public boolean withdraw(int id,String password, Double amount) {
+       BankAccount account = findByIdAndPassword(id,password);
 
         if (account == null || amount == null || amount <= 0 )
             return false;
@@ -173,9 +184,9 @@ public class AccountService {
                 amount,balance,balance-amount ,currentUser.getUsername()));
     }
 
-    public boolean transfer(int idFrom , int idTo, double amount ) {
-            BankAccount account1 = find(idFrom);
-            BankAccount account2 = find(idTo);
+    public boolean transfer(int idFrom,String password , int idTo, double amount ) {
+            BankAccount account1 = findByIdAndPassword(idFrom,password);
+            BankAccount account2 = findById(idTo);
 
             if (account1 == null || account2 == null || amount <= 0 )
                 return false;
