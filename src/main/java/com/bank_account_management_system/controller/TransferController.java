@@ -49,6 +49,12 @@ public class TransferController {
                 errorLabel.setText("fromId not found");
                 return;
             }
+            if (toAcc == fromAcc){
+                System.out.println("can't transfer into and from the same account");
+                errorLabel.setText("can't transfer into and from the same account");
+                return;
+
+            }
             if(amount <.01){
                 System.out.println("can't transfer less than .01");
                 errorLabel.setText("can't transfer less than .01");
