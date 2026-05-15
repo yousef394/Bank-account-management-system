@@ -10,13 +10,28 @@ import java.util.ArrayList;
 
 public class AccountService {
 
-    private static final CheckingAccountRepository checkingRepo = new CheckingAccountRepository();
-    private static final SavingsAccountRepository savingsRepo = new SavingsAccountRepository();
-    private static final CarLoanRepository carLoanRepo = new CarLoanRepository();
-    private static final HomeLoanRepository homeLoanRepo = new HomeLoanRepository();
-    private static final TransactionRepository transactionRepo = new TransactionRepository();
+    private  final CheckingAccountRepository checkingRepo = new CheckingAccountRepository();
+    private  final SavingsAccountRepository savingsRepo = new SavingsAccountRepository();
+    private  final CarLoanRepository carLoanRepo = new CarLoanRepository();
+    private  final HomeLoanRepository homeLoanRepo = new HomeLoanRepository();
+    private  final TransactionRepository transactionRepo = new TransactionRepository();
+    private  final User currentUser;
 
-    public static boolean createAccount(BankAccount account) {
+    public AccountService(User currentUser) {
+       if(currentUser == null
+               || UserService.findByUserNameAndPassword(currentUser.getUsername()
+               , currentUser.getPassword()) == null){
+           throw  new NullPointerException("Current user is null");
+       }
+        else
+        this.currentUser = currentUser;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public  boolean createAccount(BankAccount account) {
         if (account == null) { return false; }
 
         if (account instanceof CheckingAccount)
@@ -35,12 +50,12 @@ public class AccountService {
 
     }
 
-    public static boolean delete(int id) {
+    public  boolean delete(int id) {
 
         return checkingRepo.delete(id) || savingsRepo.delete(id) || carLoanRepo.delete(id) || homeLoanRepo.delete(id);
     }
 
-    public static BankAccount find(int id) {
+    public  BankAccount find(int id) {
 
        BankAccount account;
 
@@ -60,7 +75,7 @@ public class AccountService {
 
     }
 
-    public static boolean saveAccount(BankAccount account) {
+    public  boolean saveAccount(BankAccount account) {
         if  (account == null) { return false; }
 
         if (account instanceof CheckingAccount)
@@ -78,7 +93,7 @@ public class AccountService {
         return false;
     }
 
-    public static ArrayList<BankAccount> loadAccounts() {
+    public  ArrayList<BankAccount> loadAccounts() {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
         accounts.addAll(checkingRepo.getAll());
@@ -92,7 +107,7 @@ public class AccountService {
         return accounts;
     }
 
-    public static void applyMonthlyUpdates() {
+    public  void applyMonthlyUpdates() {
         ArrayList<BankAccount> accounts = loadAccounts();
         double amount = 0;
         TransactionType type ;
@@ -120,7 +135,8 @@ public class AccountService {
 
                if (saveAccount(account)) {
                    transactionRepo.add(new Transaction(account.getAccountId(), type
-                           , Math.abs(amount), balance, balance + amount));
+                           , Math.abs(amount), balance, balance + amount
+                           ,currentUser.getUsername()));
                }
            }
         }
@@ -128,7 +144,7 @@ public class AccountService {
 
     }
 
-    static public boolean deposit(int id, Double amount) {
+    public boolean deposit(int id, Double amount) {
         BankAccount account = find(id);
 
         if (account == null || amount == null || amount <= 0)
@@ -139,14 +155,14 @@ public class AccountService {
 
         return  account.deposit(amount) && saveAccount(account)
                 && transactionRepo.add(new Transaction( account.getAccountId(), TransactionType.DEPOSIT
-                ,amount, balance, balance + amount) );
+                ,amount, balance, balance + amount  ,currentUser.getUsername()) );
 
     }
 
-    static public boolean withdraw(int id, Double amount) {
+    public boolean withdraw(int id, Double amount) {
        BankAccount account = find(id);
 
-        if (account == null || amount == null || amount <= 0)
+        if (account == null || amount == null || amount <= 0 )
             return false;
 
 
@@ -154,10 +170,10 @@ public class AccountService {
 
         return  account.withdraw(amount) && saveAccount(account)
                 && transactionRepo.add(new Transaction( account.getAccountId(),TransactionType.WITHDRAW,
-                amount,balance,balance-amount));
+                amount,balance,balance-amount ,currentUser.getUsername()));
     }
 
-    static public boolean transfer(int idFrom , int idTo, double amount ) {
+    public boolean transfer(int idFrom , int idTo, double amount ) {
             BankAccount account1 = find(idFrom);
             BankAccount account2 = find(idTo);
 
@@ -173,10 +189,10 @@ public class AccountService {
         return account1.transfer(account2, amount) &&  saveAccount(account1) && saveAccount(account2)
                 &&
                 transactionRepo.add(new Transaction( account1.getAccountId(),TransactionType.TRANSFER,
-                amount,balance1,balance1-amount))
+                amount,balance1,balance1-amount ,currentUser.getUsername()))
                 &&
                 transactionRepo.add(new Transaction( account2.getAccountId(),TransactionType.TRANSFER,
-                amount,balance2,balance2+amount));
+                amount,balance2,balance2+amount ,currentUser.getUsername()));
 
     }
 

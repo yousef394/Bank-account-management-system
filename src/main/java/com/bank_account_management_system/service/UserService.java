@@ -7,41 +7,56 @@ import java.util.ArrayList;
 
 public class UserService {
 
-    private final static UserRepository userRepo = new UserRepository();
+    private final  UserRepository userRepo = new UserRepository();
+    private final User currentUser;
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
-    public static boolean createUser(User user) {
+    public UserService(User currentUser) {
+        if(currentUser == null
+        || UserService.findByUserNameAndPassword(
+                currentUser.getUsername(), currentUser.getPassword()) == null){
+            throw new NullPointerException("UserService currentUser is null");
+        }
+
+        this.currentUser = currentUser;
+    }
+
+    public  boolean createUser(User user) {
 
         if (user == null) { return false; }
 
-        //User Name should be Unique
+        //Username should be Unique
         if (userRepo.find(user.getUsername()) != null) { return  false; }
 
         return userRepo.add(user);
 
     }
 
-    public static boolean delete(String userName) {
+    public  boolean delete(String userName) {
 
         return userRepo.delete(userName);
     }
 
     public static User findByUserNameAndPassword(String userName , String password) {
 
-     User object = userRepo.find(userName);
+     // it is static
+     User object = new UserRepository().find(userName);
 
      if(object!=null && object.getPassword().equals(password)) { return object; }
 
      return null;
     }
 
-    public static boolean saveUser(User user) {
+    public  boolean saveUser(User user) {
         if  (user == null) { return false; }
 
         return userRepo.update(user);
     }
 
-    public static ArrayList<User> loadUsers() {
+    public  ArrayList<User> loadUsers() {
         ArrayList<User> users = new ArrayList<>();
 
        if( users.addAll(userRepo.getAll()) )
