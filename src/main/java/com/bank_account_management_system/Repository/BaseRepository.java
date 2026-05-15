@@ -12,11 +12,15 @@ import java.util.ArrayList;
           super( fileName);
       }
 
+
+      // for Encryption & Decryption
+      Protecting protecting = new Protecting("1234567890123456");
+
       //Helper Method
       protected String commonFormat(BankAccount object) {
           return object.getAccountId() +
                   separator +
-                  object.getPassword() +
+                  protecting.encrypt(object.getPassword()) +
                   separator +
                   object.getDateCreated() +
                   separator +

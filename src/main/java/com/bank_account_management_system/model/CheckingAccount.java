@@ -46,11 +46,6 @@ public class CheckingAccount extends BankAccount {
 
     //========override methods=========
     @Override
-    protected void setBalance(double balance) {
-        super.setBalance(balance);
-    }
-
-    @Override
     public boolean withdraw(double amount)  {
 
         if (amount <= 0) return false;

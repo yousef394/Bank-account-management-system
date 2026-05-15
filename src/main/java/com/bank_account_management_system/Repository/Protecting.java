@@ -2,14 +2,13 @@ package com.bank_account_management_system.Repository;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.PrivateKey;
 import java.util.Base64;
 
 public class Protecting {
     //fixed KEY
     private  final String KEY;
 
-    Protecting (String key){
+   public Protecting (String key){
         this.KEY =key;
     }
 
