@@ -7,24 +7,9 @@ import java.util.ArrayList;
 
 public class UserService {
 
-    private final  UserRepository userRepo = new UserRepository();
-    private final User currentUser;
+    private final static  UserRepository userRepo = new UserRepository();
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public UserService(User currentUser) {
-        if(currentUser == null
-        || UserService.findByUserNameAndPassword(
-                currentUser.getUsername(), currentUser.getPassword()) == null){
-            throw new NullPointerException("UserService currentUser is null");
-        }
-
-        this.currentUser = currentUser;
-    }
-
-    public  boolean createUser(User user) {
+    public static boolean createUser(User user) {
 
         if (user == null) { return false; }
 
@@ -35,7 +20,7 @@ public class UserService {
 
     }
 
-    public  boolean delete(String userName) {
+    public static boolean delete(String userName) {
 
         return userRepo.delete(userName);
     }
@@ -50,13 +35,13 @@ public class UserService {
      return null;
     }
 
-    public  boolean saveUser(User user) {
+    public static boolean saveUser(User user) {
         if  (user == null) { return false; }
 
         return userRepo.update(user);
     }
 
-    public  ArrayList<User> loadUsers() {
+    public static ArrayList<User> loadUsers() {
         ArrayList<User> users = new ArrayList<>();
 
        if( users.addAll(userRepo.getAll()) )

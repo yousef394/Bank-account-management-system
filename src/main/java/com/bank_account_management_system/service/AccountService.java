@@ -10,28 +10,13 @@ import java.util.ArrayList;
 
 public class AccountService {
 
-    private  final CheckingAccountRepository checkingRepo = new CheckingAccountRepository();
-    private  final SavingsAccountRepository savingsRepo = new SavingsAccountRepository();
-    private  final CarLoanRepository carLoanRepo = new CarLoanRepository();
-    private  final HomeLoanRepository homeLoanRepo = new HomeLoanRepository();
-    private  final TransactionRepository transactionRepo = new TransactionRepository();
-    private  final User currentUser;
+    private static final CheckingAccountRepository checkingRepo = new CheckingAccountRepository();
+    private static final SavingsAccountRepository savingsRepo = new SavingsAccountRepository();
+    private static final CarLoanRepository carLoanRepo = new CarLoanRepository();
+    private static final HomeLoanRepository homeLoanRepo = new HomeLoanRepository();
+    private static final TransactionRepository transactionRepo = new TransactionRepository();
 
-    public AccountService(User currentUser) {
-       if(currentUser == null
-               || UserService.findByUserNameAndPassword(currentUser.getUsername()
-               , currentUser.getPassword()) == null){
-           throw  new NullPointerException("Current user is null");
-       }
-        else
-        this.currentUser = currentUser;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public  boolean createAccount(BankAccount account) {
+    public static boolean createAccount(BankAccount account) {
         if (account == null) { return false; }
 
         if (account instanceof CheckingAccount)
@@ -50,12 +35,12 @@ public class AccountService {
 
     }
 
-    public  boolean delete(int id) {
+    public static boolean delete(int id) {
 
         return checkingRepo.delete(id) || savingsRepo.delete(id) || carLoanRepo.delete(id) || homeLoanRepo.delete(id);
     }
 
-    public  BankAccount findById(int id) {
+    public static BankAccount findById(int id) {
 
        BankAccount account;
 
@@ -75,7 +60,7 @@ public class AccountService {
 
     }
 
-    public BankAccount findByIdAndPassword(int id , String password) {
+    public static BankAccount findByIdAndPassword(int id , String password) {
         BankAccount account =  findById(id);
 
         if (account != null) {
@@ -86,7 +71,7 @@ public class AccountService {
         return null;
     }
 
-    public  boolean saveAccount(BankAccount account) {
+    public static boolean saveAccount(BankAccount account) {
         if  (account == null) { return false; }
 
         if (account instanceof CheckingAccount)
@@ -104,7 +89,7 @@ public class AccountService {
         return false;
     }
 
-    public  ArrayList<BankAccount> loadAccounts() {
+    public static ArrayList<BankAccount> loadAccounts() {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
         accounts.addAll(checkingRepo.getAll());
@@ -118,7 +103,12 @@ public class AccountService {
         return accounts;
     }
 
-    public  void applyMonthlyUpdates() {
+    public static void applyMonthlyUpdates(String userName) {
+
+        if(userName == null || userName.isEmpty()) {
+            return;
+        }
+
         ArrayList<BankAccount> accounts = loadAccounts();
         double amount = 0;
         TransactionType type ;
@@ -147,7 +137,7 @@ public class AccountService {
                if (saveAccount(account)) {
                    transactionRepo.add(new Transaction(account.getAccountId(), type
                            , Math.abs(amount), balance, balance + amount
-                           ,currentUser.getUsername()));
+                           ,userName));
                }
            }
         }
@@ -155,10 +145,10 @@ public class AccountService {
 
     }
 
-    public boolean deposit(int id,String password, Double amount) {
+    public static boolean deposit(int id,String password, Double amount ,String userName) {
         BankAccount account = findByIdAndPassword(id,password);
 
-        if (account == null || amount == null || amount <= 0)
+        if (account == null || amount == null || amount <= 0 || userName == null || userName.isEmpty())
             return false;
 
         double balance = account.getBalance();
@@ -166,14 +156,14 @@ public class AccountService {
 
         return  account.deposit(amount) && saveAccount(account)
                 && transactionRepo.add(new Transaction( account.getAccountId(), TransactionType.DEPOSIT
-                ,amount, balance, balance + amount  ,currentUser.getUsername()) );
+                ,amount, balance, balance + amount  ,userName) );
 
     }
 
-    public boolean withdraw(int id,String password, Double amount) {
+    public static boolean withdraw(int id,String password, Double amount ,String userName) {
        BankAccount account = findByIdAndPassword(id,password);
 
-        if (account == null || amount == null || amount <= 0 )
+        if (account == null || amount == null || amount <= 0 ||userName == null || userName.isEmpty() )
             return false;
 
 
@@ -181,14 +171,14 @@ public class AccountService {
 
         return  account.withdraw(amount) && saveAccount(account)
                 && transactionRepo.add(new Transaction( account.getAccountId(),TransactionType.WITHDRAW,
-                amount,balance,balance-amount ,currentUser.getUsername()));
+                amount,balance,balance-amount ,userName) );
     }
 
-    public boolean transfer(int idFrom,String password , int idTo, double amount ) {
+    public static boolean transfer(int idFrom,String password , int idTo, double amount , String userName ) {
             BankAccount account1 = findByIdAndPassword(idFrom,password);
             BankAccount account2 = findById(idTo);
 
-            if (account1 == null || account2 == null || amount <= 0 )
+            if (account1 == null || account2 == null || amount <= 0 || userName == null || userName.isEmpty())
                 return false;
 
             double balance1 = account1.getBalance();
@@ -200,10 +190,10 @@ public class AccountService {
         return account1.transfer(account2, amount) &&  saveAccount(account1) && saveAccount(account2)
                 &&
                 transactionRepo.add(new Transaction( account1.getAccountId(),TransactionType.TRANSFER,
-                amount,balance1,balance1-amount ,currentUser.getUsername()))
+                amount,balance1,balance1-amount ,userName))
                 &&
                 transactionRepo.add(new Transaction( account2.getAccountId(),TransactionType.TRANSFER,
-                amount,balance2,balance2+amount ,currentUser.getUsername()));
+                amount,balance2,balance2+amount ,userName));
 
     }
 
